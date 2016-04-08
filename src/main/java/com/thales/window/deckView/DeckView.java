@@ -54,6 +54,7 @@ public class DeckView extends Pane
         SubScene subScene = new SubScene(root, 1400, 1000);
         subScene.setCamera(camera);
         getChildren().add(subScene);
+        setSceneEvents();
     }
 
     private void buildAxes() {
@@ -99,6 +100,23 @@ public class DeckView extends Pane
         cameraXform.ry.setAngle(CAMERA_INITIAL_Y_ANGLE);
         cameraXform.rx.setAngle(CAMERA_INITIAL_X_ANGLE);
         cameraXform.rz.setAngle(CAMERA_INITIAL_Z_ANGLE);
+
+    }
+
+    private void setSceneEvents() {
+        //handles mouse scrolling
+        world.setOnScroll(
+            event -> {
+                double zoomFactor = 1.05;
+                double deltaY = event.getDeltaY();
+                if (deltaY < 0) {
+                    zoomFactor = 2.0 - zoomFactor;
+                }
+                System.out.println(zoomFactor);
+                world.setScaleX(world.getScaleX() * zoomFactor);
+                world.setScaleY(world.getScaleY() * zoomFactor);
+                event.consume();
+            });
 
     }
 }
