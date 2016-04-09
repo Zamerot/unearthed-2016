@@ -9,7 +9,7 @@ import java.util.Hashtable;
 /**
  * Created by Administrator on 9/04/2016.
  */
-public interface IColorFactory<T> {
+public interface IColorFactory<T extends Enum> {
 
     Color getColor(ItemView itemView);
 
