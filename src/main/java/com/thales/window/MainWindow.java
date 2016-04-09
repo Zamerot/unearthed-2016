@@ -32,7 +32,7 @@ public class MainWindow extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Loady Boat");
 
-		Scene scene = new Scene(mainPane, 1280, 800, true);
+		Scene scene = new Scene(mainPane);
 
 		 InputStream icon = this.getClass().getResourceAsStream("/icon.png");
 
@@ -54,6 +54,7 @@ public class MainWindow extends Application {
 
 		mainPane.getChildren().add(view);
 		primaryStage.setScene(scene);
+	//	primaryStage.setFullScreen(true);
 		primaryStage.show();
 
 		Executors.newSingleThreadExecutor().execute(() -> view.go());

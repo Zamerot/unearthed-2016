@@ -2,18 +2,16 @@ package com.thales.window;
 
 import com.thales.ga.ManifestOptimiser;
 import com.thales.utils.FXExecutor;
+import com.thales.window.Manifest.GenerationView;
 import com.thales.window.Manifest.ManifestView;
 import com.thales.window.deckView.DeckView;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.jenetics.stat.DoubleMomentStatistics;
 
-import java.lang.management.PlatformLoggingMXBean;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
-import org.jenetics.stat.DoubleMomentStatistics;
 
 /**
  * Created by Administrator on 8/04/2016.
@@ -23,7 +21,7 @@ public class VesselOptimizationView extends HBox {
 	// TODO
 	final Pane deckView = new DeckView();
 
-	final Label generationView = new Label("Count");
+	final GenerationView generationView = new GenerationView();
 
 	private int count = 0;
 
@@ -49,7 +47,7 @@ public class VesselOptimizationView extends HBox {
 		optimiser.optimise((g, s, m) -> {
 			if (g % 20 == 0) {
 				FXExecutor.INSTANCE.execute(() -> {
-					generationView.setText("Generation " + g);
+					generationView.setGeneration(g);
 					DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
 					fitnessView.addDataToQueue(fitness.getMax());
 					manifestView.update(m);
