@@ -43,18 +43,19 @@ public class VesselOptimizationView extends HBox {
 
 	public void go() {
 		optimiser.optimise((g, s, m) -> {
-				FXExecutor.INSTANCE.execute(() -> {
-					if (g % 20 == 0) {
-						DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
-						fitnessView.addDataToQueue(fitness.getMax());
-						generationView.setPriority(m.getItems().stream().filter((item) -> item.getPriority().equals(Priority.HIGH)).count());
-						manifestView.update(m);
-						generationView.setBoxCount(m.getItems().size());
-						deckView.updateDeck(m);
-					}
+			FXExecutor.INSTANCE.execute(() -> {
+				if (g % 5 == 0) {
+					DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
+					fitnessView.addDataToQueue(fitness.getMax());
+					generationView.setPriority(
+							m.getItems().stream().filter((item) -> item.getPriority().equals(Priority.HIGH)).count());
+					manifestView.update(m);
+					generationView.setBoxCount(m.getItems().size());
+					deckView.updateDeck(m);
+				}
 
-					generationView.setGeneration(g);
-				});
+				generationView.setGeneration(g);
+			});
 		});
 	}
 
