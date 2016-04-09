@@ -1,9 +1,11 @@
 package com.thales.ga;
 
-import java.util.Random;
+import static org.jenetics.engine.EvolutionResult.toBestPhenotype;
 
 import org.jenetics.BitChromosome;
 import org.jenetics.BitGene;
+import org.jenetics.Genotype;
+import org.jenetics.MultiPointCrossover;
 import org.jenetics.Mutator;
 import org.jenetics.Optimize;
 import org.jenetics.Phenotype;
@@ -11,53 +13,49 @@ import org.jenetics.RouletteWheelSelector;
 import org.jenetics.SinglePointCrossover;
 import org.jenetics.TournamentSelector;
 import org.jenetics.engine.Engine;
-import org.jenetics.engine.EvolutionResult;
 import org.jenetics.engine.EvolutionStatistics;
-import org.jenetics.engine.limit;
-import org.jenetics.util.RandomRegistry;
 
-import com.thales.model.Item;
-import com.thales.model.Priority;
+import com.thales.model.Manifest;
 import com.thales.model.Store;
-import com.thales.model.Urgency;
 import com.thales.model.Vessel;
-import com.thales.model.Vessel.Dimension;
 
 public class ManifestOptimiser {
 
-	private static final Store store = new Store();
+	private static final long GENERATION_LIMIT = 10000;
 
-	private static final Vessel vessel = new Vessel("Boaty McBoat Face", new Dimension(10, 10));
+	private final Store store;
+	private final Vessel vessel;
 
-	static Item random() {
-		final Random r = RandomRegistry.getRandom();
-		return store.getItem(r.nextInt(store.size()));
+	public ManifestOptimiser(Store store, Vessel vessel) {
+		this.store = store;
+		this.vessel = vessel;
 	}
 
-	public static void main(String[] args) {
+	private Manifest create(Genotype<BitGene> genotype) {
+		Manifest manifest = new Manifest(vessel);
+		((BitChromosome) genotype.getChromosome()).ones().mapToObj((i) -> store.getItem(i))
+				.forEach((item) -> manifest.addItem(item));
+		return manifest;
 
-		for (int i = 0; i < 100; i++) {
-			int p = RandomRegistry.getRandom().nextInt(Priority.values().length);
-			int u = RandomRegistry.getRandom().nextInt(Urgency.values().length);
-//			store.addItem(new Item("FOOOOBARRR", Priority.values()[p], Urgency.values()[u], ));
-		}
+	}
 
-		Dimension deck = vessel.getDimension();
-		int size = deck.width * deck.height;
-		ManifestFitnessFunction ff = new ManifestFitnessFunction(store, size);
+	public Manifest optimise(ManifestOptimsationFunction func) {
+		int nitems = (int) vessel.getDimension().width * vessel.getDimension().height;
+		ManifestFitnessFunction ff = new ManifestFitnessFunction(store, nitems);
 
-		final Engine<BitGene, Double> engine = Engine.builder(ff, BitChromosome.of(size, 0.5))
+		Engine<BitGene, Double> engine = Engine.builder(ff, BitChromosome.of(store.size(), nitems / store.size() * 0.1))
 				.optimize(Optimize.MAXIMUM).populationSize(500).survivorsSelector(new TournamentSelector<>(5))
 				.offspringSelector(new RouletteWheelSelector<>())
-				.alterers(new Mutator<>(0.115), new SinglePointCrossover<>(0.16)).build();
+				.maximalPhenotypeAge(10)
+				.alterers(new Mutator<>(0.2), new SinglePointCrossover<>(0.3)).build();
 
-		final EvolutionStatistics<Double, ?> statistics = EvolutionStatistics.ofNumber();
+		EvolutionStatistics<Double, ?> statistics = EvolutionStatistics.ofNumber();
 
-		final Phenotype<BitGene, Double> best = engine.stream().limit(1000)
-				.peek(statistics).collect(EvolutionResult.toBestPhenotype());
+		Phenotype<BitGene, Double> best = engine.stream().peek(statistics)
+				.peek((r) -> func.apply(r.getGeneration(), statistics, create(r.getBestPhenotype().getGenotype()))).limit(GENERATION_LIMIT)
+				.collect(toBestPhenotype());
 
-		System.out.println(statistics);
-		System.out.println(best);
+		return create(best.getGenotype());
 	}
 
 }
