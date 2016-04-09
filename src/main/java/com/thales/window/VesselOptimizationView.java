@@ -29,7 +29,7 @@ public class VesselOptimizationView extends HBox {
 
 	final Executor executor = Executors.newSingleThreadExecutor();
 
-	final Pane manifestView = new ManifestView();
+	final ManifestView manifestView = new ManifestView();
 
 	private final ManifestOptimiser optimiser;
 
@@ -50,6 +50,7 @@ public class VesselOptimizationView extends HBox {
 					generationView.setGeneration(g);
 					DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
 					fitnessView.addDataToQueue(fitness.getMax());
+					manifestView.update(m);
 				});
 			}
 		});
