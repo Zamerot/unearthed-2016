@@ -2,9 +2,7 @@ package com.thales.window.deckView.color;
 
 import com.thales.model.Destination;
 import com.thales.window.deckView.CargoView.ItemView;
-import com.thales.window.deckView.ColorFactory;
 import javafx.scene.paint.Color;
-import sun.security.krb5.internal.crypto.Des;
 
 import java.util.Hashtable;
 
@@ -24,6 +22,7 @@ public class DestinationColorFactory implements IColorFactory {
         colors.put(Destination.AU05, Color.BURLYWOOD);
         colors.put(Destination.AU18, Color.CORNSILK);
         colors.put(Destination.AU21, Color.CHARTREUSE);
+//        colors.put(Destination.KBSB, Color.YELLOW);
     }
 
     public Hashtable<Destination, Color> getColors()
