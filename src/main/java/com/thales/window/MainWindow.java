@@ -2,6 +2,7 @@ package com.thales.window;/**
 							* Created by Administrator on 8/04/2016.
 							*/
 
+import java.io.InputStream;
 import java.util.concurrent.Executors;
 
 import org.jenetics.util.RandomRegistry;
@@ -16,6 +17,7 @@ import com.thales.model.Vessel;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -34,10 +36,10 @@ public class MainWindow extends Application {
 
 		Scene scene = new Scene(mainPane, 1280, 800, true);
 
-		 InputStream icon = this.getClass().getResourceAsStream("/icon.png");
+		InputStream icon = this.getClass().getResourceAsStream("/icon.png");
 
-		 Image image = new Image(icon);
-		 primaryStage.getIcons().add(image);
+		Image image = new Image(icon);
+		primaryStage.getIcons().add(image);
 		// Generate a random collection of store items.
 
 		Store store = new Store();
