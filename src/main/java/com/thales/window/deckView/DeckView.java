@@ -27,7 +27,7 @@ public class DeckView extends Pane
     private static final double CAMERA_INITIAL_DISTANCE = -8000;
     private static final double CAMERA_INITIAL_X_ANGLE = 0;
     private static final double CAMERA_INITIAL_Y_ANGLE = 0;
-    private static final double CAMERA_INITIAL_Z_ANGLE = 0;
+    private static final double CAMERA_INITIAL_Z_ANGLE = 90;
 
     private static final double CAMERA_NEAR_CLIP = 0.1;
     private static final double CAMERA_FAR_CLIP = 10000.0;
@@ -59,6 +59,8 @@ public class DeckView extends Pane
 
     private boolean setNewDelta = true;
 
+    final Arrow arrow = new Arrow();
+
 
 
 
@@ -67,7 +69,7 @@ public class DeckView extends Pane
         setMaxWidth(1600);
         cargoView = new CargoView();
 
-        world.getChildren().addAll(axis, grid, vesselView, cargoView);
+        world.getChildren().addAll(axis, grid, vesselView, cargoView, arrow);
 //        vesselView.setVisible(false);
         grid.setVisible(false);
         axis.setVisible(false);
@@ -75,12 +77,16 @@ public class DeckView extends Pane
         buildCamera();
 
 
+        arrow.setTranslateZ(40);
+
         vesselView.setTranslateZ(40);
         grid.setTranslateZ(20);
 
         double vesselWidth = vesselView.getLayoutBounds().getWidth();
         double vesselHeight = vesselView.getLayoutBounds().getHeight();
 
+        double arrowHeight = arrow.getLayoutBounds().getHeight();
+        arrow.setTranslateY(-vesselHeight / 2 - 30 - arrowHeight/2);
 //        vesselView.setTranslate(vesselWidth / 2 + 50, -vesselHeight / 2 - 50);
 
         cargoView.setTranslate(-vesselWidth / 2 + 50, (vesselHeight / 2) - 50);
