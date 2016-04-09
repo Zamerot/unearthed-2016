@@ -24,4 +24,8 @@ public class Manifest {
 		items.add(item);
 	}
 
+	public List<Item> getItems()
+	{
+		return items;
+	}
 }
