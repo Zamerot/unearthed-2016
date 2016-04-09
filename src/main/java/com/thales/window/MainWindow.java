@@ -1,6 +1,4 @@
-package com.thales.window;/**
-							* Created by Administrator on 8/04/2016.
-							*/
+package com.thales.window;
 
 import com.thales.ga.ManifestOptimiser;
 import com.thales.model.*;
@@ -29,12 +27,12 @@ public class MainWindow extends Application {
 
 		Scene scene = new Scene(mainPane);
 
-		 InputStream icon = this.getClass().getResourceAsStream("/icon.png");
+		InputStream icon = this.getClass().getResourceAsStream("/icon.png");
 
-		 Image image = new Image(icon);
-		 primaryStage.getIcons().add(image);
+		Image image = new Image(icon);
+		primaryStage.getIcons().add(image);
 		// Generate a random collection of store items.
-		
+
 		Store store = new Store();
 		for (int i = 0; i < 3000; i++) {
 			int p = RandomRegistry.getRandom().nextInt(Priority.values().length);
@@ -42,7 +40,6 @@ public class MainWindow extends Application {
 			int d = RandomRegistry.getRandom().nextInt(Destination.values().length);
 			store.addItem(new Item("Item " + i, Priority.values()[p], Urgency.values()[u], Destination.values()[d]));
 		}
-
 
 		ManifestOptimiser optimiser = new ManifestOptimiser(store, Vessel.VESSEL16);
 		VesselOptimizationView view = new VesselOptimizationView(optimiser);

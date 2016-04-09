@@ -8,7 +8,6 @@ import com.thales.window.Manifest.GenerationView;
 import com.thales.window.Manifest.ManifestView;
 import com.thales.window.deckView.DeckView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.jenetics.stat.DoubleMomentStatistics;
 
@@ -21,7 +20,7 @@ import java.util.concurrent.Executors;
 public class VesselOptimizationView extends HBox {
 
 	// TODO
-	final Pane deckView = new DeckView();
+	final DeckView deckView = new DeckView();
 
 	final GenerationView generationView = new GenerationView();
 

@@ -1,5 +1,6 @@
 package com.thales.window.deckView;
 
+import com.thales.model.Manifest;
 import com.thales.window.deckView.CargoView.CargoView;
 import com.thales.window.deckView.CargoView.ItemView;
 import com.thales.window.deckView.color.IColorFactory;
@@ -51,7 +52,7 @@ public class DeckView extends Pane
 
     final Xform grid = new Grid(14000, 10000, 100, 100);
 
-    Xform cargoView;
+    CargoView cargoView;
 
     private final IColorFactory colorFactory = new RandomColorFactory();
 
@@ -88,7 +89,7 @@ public class DeckView extends Pane
     public DeckView()
     {
         setMaxWidth(1600);
-        cargoView = new CargoView((createList()));
+        cargoView = new CargoView();
 
         world.getChildren().addAll(axis, grid, vesselView, cargoView);
 //        vesselView.setVisible(false);
@@ -189,4 +190,31 @@ public class DeckView extends Pane
 
     }
     class Delta { double x, y; }
+
+
+    public void updateDeck(Manifest m)
+    {
+        int maxWidth =  m.getVessel().getDimension().width;
+        int maxHeight = m.getVessel().getDimension().height;
+
+        List<List<ItemView>> list = new ArrayList<>();
+
+
+        for(int i = 0; i < maxWidth; i++)
+        {
+            List<ItemView> row = new ArrayList<>();
+
+            for(int j = 0; j < maxHeight; j++)
+            {
+                ItemView itemView = new ItemView(m.getPosition(i, j));
+                itemView.setMaterial(new PhongMaterial(colorFactory.getColor(itemView)));
+
+                row.add(itemView);
+            }
+
+            list.add(row);
+        }
+
+        cargoView.update(list);
+    }
 }
