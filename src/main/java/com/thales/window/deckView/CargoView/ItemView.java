@@ -1,7 +1,6 @@
 package com.thales.window.deckView.CargoView;
 
 import com.thales.model.Item;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Box;
 
 /**
