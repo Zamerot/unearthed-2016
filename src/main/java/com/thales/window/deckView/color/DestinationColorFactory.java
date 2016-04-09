@@ -24,7 +24,6 @@ public class DestinationColorFactory implements IColorFactory {
         colors.put(Destination.AU05, Color.BURLYWOOD);
         colors.put(Destination.AU18, Color.CORNSILK);
         colors.put(Destination.AU21, Color.CHARTREUSE);
-        colors.put(Destination.KBSB, Color.YELLOW);
     }
 
     public Hashtable<Destination, Color> getColors()

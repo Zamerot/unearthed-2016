@@ -8,10 +8,9 @@ import java.util.Hashtable;
 /**
  * Created by Administrator on 9/04/2016.
  */
-public interface IColorFactory<T> {
+public interface IColorFactory {
 
     Color getColor(ItemView itemView);
 
 
-    Hashtable<T, Color> getColors();
 }

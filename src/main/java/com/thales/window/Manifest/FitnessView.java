@@ -44,8 +44,8 @@ public class FitnessView extends Pane {
     xAxis.setForceZeroInRange(false);
     xAxis.setAutoRanging(false);
 
-    NumberAxis yAxis = new NumberAxis(10000000,15000000,100000);
-    yAxis.setAutoRanging(false);
+    NumberAxis yAxis = new NumberAxis();
+    yAxis.setAutoRanging(true);
 
     //-- Chart
     final AreaChart<Number, Number> sc = new AreaChart<Number, Number>(xAxis, yAxis) {
