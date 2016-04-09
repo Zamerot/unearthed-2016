@@ -78,7 +78,7 @@ public class FitnessView extends Pane {
   }
 
 
-  public void addDataToQueue(int fitnessValue){
+  public void addDataToQueue(double fitnessValue){
     dataQ.add(fitnessValue);
   }
 

@@ -1,5 +1,6 @@
 package com.thales.window;
 
+import com.thales.ga.ManifestOptimiser;
 import com.thales.utils.FXExecutor;
 import com.thales.window.Manifest.ManifestView;
 import com.thales.window.deckView.DeckView;
@@ -8,53 +9,52 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import org.jenetics.stat.DoubleMomentStatistics;
 
 /**
  * Created by Administrator on 8/04/2016.
  */
-public class VesselOptimizationView extends HBox{
+public class VesselOptimizationView extends HBox {
 
-    //TODO
-    final Pane deckView = new DeckView();
+	// TODO
+	final Pane deckView = new DeckView();
 
-    final Label generationView = new Label("Count");
+	final Label generationView = new Label("Count");
 
-    private int count = 0;
+	private int count = 0;
 
-    final FitnessView fitnessView = new FitnessView();
+	final FitnessView fitnessView = new FitnessView();
 
+	final Executor executor = Executors.newSingleThreadExecutor();
 
-    final Executor executor = Executors.newSingleThreadExecutor();
+	final Pane manifestView = new ManifestView();
 
-    final Pane  manifestView = new ManifestView();
+	private final ManifestOptimiser optimiser;
 
-    public VesselOptimizationView()
-    {
-        VBox leftBox = new VBox();
+	public VesselOptimizationView(ManifestOptimiser optimiser) {
+		this.optimiser = optimiser;
+		VBox leftBox = new VBox();
 
-        leftBox.getChildren().addAll(generationView, fitnessView, manifestView);
+		leftBox.getChildren().addAll(generationView, fitnessView, manifestView);
 
-        executor.execute(() -> {
-            while(true){
-                count ++;
-                FXExecutor.INSTANCE.execute(()->
-                {
-                    generationView.setText("count " + count);
-                    fitnessView.addDataToQueue((int) (Math.random() * 100));
-                });
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            }
-        });
+		this.getChildren().addAll(leftBox, deckView);
 
-        this.getChildren().addAll(leftBox, deckView);
+	}
 
-
-    }
+	public void go() {
+		optimiser.optimise((g, s, m) -> {
+			if (g % 50 == 0) {
+				FXExecutor.INSTANCE.execute(() -> {
+					generationView.setText("Generation " + g);
+					DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
+					fitnessView.addDataToQueue(fitness.getMax());
+				});
+			}
+		});
+	}
 
 }

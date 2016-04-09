@@ -7,6 +7,6 @@ import com.thales.model.Manifest;
 @FunctionalInterface
 public interface ManifestOptimsationFunction {
 
-	void apply(EvolutionStatistics statistics, Manifest manifest);
+	void apply(long generation, EvolutionStatistics statistics, Manifest manifest);
 	
 }
