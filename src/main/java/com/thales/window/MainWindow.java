@@ -1,24 +1,17 @@
 package com.thales.window;
 
-import java.io.InputStream;
-import java.util.concurrent.Executors;
-
-import org.jenetics.util.RandomRegistry;
-
 import com.thales.ga.ManifestOptimiser;
-import com.thales.model.Destination;
-import com.thales.model.Item;
-import com.thales.model.Priority;
-import com.thales.model.Store;
-import com.thales.model.Urgency;
-import com.thales.model.Vessel;
-
+import com.thales.model.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.jenetics.util.RandomRegistry;
+
+import java.io.InputStream;
+import java.util.concurrent.Executors;
 
 public class MainWindow extends Application {
 
@@ -61,6 +54,7 @@ public class MainWindow extends Application {
 
 		mainPane.getChildren().add(view);
 		primaryStage.setScene(scene);
+		primaryStage.setFullScreen(true);
 		primaryStage.show();
 
 		primaryStage.setOnCloseRequest((a) -> {
