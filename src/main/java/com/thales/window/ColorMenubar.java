@@ -24,32 +24,8 @@ public class ColorMenubar extends VBox {
     legend.updateLegend(new DestinationColorFactory().getColors());
     this.deckView = deckView;
     buildMenuButtons();
-    getChildren().addAll(menuBar, deckView);
+    getChildren().addAll(menuBar, deckView, legend);
 
-    VBox deckBox = new VBox();
-    deckBox.getChildren().addAll(menuBar, deckView);
-
-    StackPane stackPane = new StackPane();
-    stackPane.getChildren().add(deckBox);
-
-    Pane spacer1 = new Pane();
-    VBox vGlass = new VBox();
-
-
-    vGlass.getChildren().addAll(spacer1, legend);
-    VBox.setVgrow(spacer1, Priority.ALWAYS);
-
-    HBox hGlass = new HBox();
-    Pane spacer2 = new Pane();
-
-    hGlass.getChildren().addAll(spacer2, vGlass);
-    HBox.setHgrow(spacer2, Priority.ALWAYS);
-
-    stackPane.getChildren().add(hGlass);
-
-    vGlass.setMouseTransparent(true);
-    hGlass.setMouseTransparent(true);
-    this.getChildren().add(stackPane);
 
   }
 
