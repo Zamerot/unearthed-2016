@@ -1,7 +1,5 @@
 package com.thales.model;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public final class Vessel {
 
 	private final String id;
@@ -9,8 +7,8 @@ public final class Vessel {
 	private final Dimension dimension;
 
 	public Vessel(String id, Dimension dimension) {
-		this.id = checkNotNull(id);
-		this.dimension = checkNotNull(dimension);
+		this.id = id;//checkNotNull(id);
+		this.dimension = dimension;//checkNotNull(dimension);
 	}
 
 	public String getId() {
