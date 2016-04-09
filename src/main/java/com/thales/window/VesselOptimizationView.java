@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 public class VesselOptimizationView extends HBox {
 
 	// TODO
-	final Pane deckView = new DeckView();
+	final DeckView deckView = new DeckView();
 
 	final GenerationView generationView = new GenerationView();
 
@@ -51,6 +51,7 @@ public class VesselOptimizationView extends HBox {
 					DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
 					fitnessView.addDataToQueue(fitness.getMax());
 					manifestView.update(m);
+					deckView.updateDeck(m);
 				});
 			}
 		});

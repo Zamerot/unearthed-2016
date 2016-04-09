@@ -1,9 +1,9 @@
-package com.thales.window;/**
-							* Created by Administrator on 8/04/2016.
-							*/
+package com.thales.window;
 
+import java.io.InputStream;
 import java.util.concurrent.Executors;
 
+import javafx.scene.image.Image;
 import org.jenetics.util.RandomRegistry;
 
 import com.thales.ga.ManifestOptimiser;
