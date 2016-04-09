@@ -6,6 +6,7 @@ import com.thales.model.Manifest;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
@@ -21,6 +22,8 @@ public class ManifestView extends Pane
     // TODO
     public ManifestView()
     {
+
+
         TableColumn<Item, String> idColumn = new TableColumn<>("ID");
         TableColumn<Item, String> nameColumn = new TableColumn<>("Name");
         TableColumn<Item, String> priorityColumn = new TableColumn<>("Priority");
@@ -33,6 +36,9 @@ public class ManifestView extends Pane
 
         tableView = new TableView<>();
         tableView.getColumns().addAll(idColumn, nameColumn, priorityColumn, urgencyColumn, destinationColumn);
+        tableView.setPadding(new Insets(20, 0, 20, 20));
+        tableView.setMinWidth(600);
+        tableView.setMinHeight(500);
 
         idColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Item, String>, ObservableValue<String>>(){
 

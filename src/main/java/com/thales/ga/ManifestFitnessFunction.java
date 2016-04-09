@@ -1,17 +1,12 @@
 package com.thales.ga;
 
-import java.util.function.Function;
-import java.util.stream.Collector;
-
+import com.thales.model.*;
 import org.jenetics.Genotype;
 import org.jenetics.IntegerChromosome;
 import org.jenetics.IntegerGene;
 
-import com.thales.model.Item;
-import com.thales.model.Priority;
-import com.thales.model.Store;
-import com.thales.model.Urgency;
-import com.thales.model.Vessel;
+import java.util.function.Function;
+import java.util.stream.Collector;
 
 public class ManifestFitnessFunction implements Function<Genotype<IntegerGene>, Double> {
 
