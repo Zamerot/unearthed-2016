@@ -1,6 +1,7 @@
 package com.thales.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,11 @@ public class Manifest {
 		items.add(checkNotNull(item));
 	}
 
+	public Item getPosition(int x, int y) {
+		int index = checkPositionIndex(vessel.getDimension().width * x + y, vessel.getDimension().size);
+		return items.get(index);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -38,8 +44,7 @@ public class Manifest {
 		return builder.toString();
 	}
 
-	public List<Item> getItems()
-	{
+	public List<Item> getItems() {
 		return items;
 	}
 }
