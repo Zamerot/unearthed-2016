@@ -32,7 +32,7 @@ public class ManifestFitnessFunction implements Function<Genotype<BitGene>, Doub
 			return a;
 		} , r -> r);
 	}
-
+	
 	public Double apply(Genotype<BitGene> gt) {
 		double[] value = ((BitChromosome) gt.getChromosome()).ones().mapToObj(i -> store.getItem(i)).collect(sum());
 		return value[2] <= this.size ? (value[0] + value[1]) : 0;
