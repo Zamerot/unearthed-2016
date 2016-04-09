@@ -3,6 +3,7 @@ package com.thales.window.deckView;
 import com.thales.model.Manifest;
 import com.thales.window.deckView.CargoView.CargoView;
 import com.thales.window.deckView.CargoView.ItemView;
+import com.thales.window.deckView.color.DestinationColorFactory;
 import com.thales.window.deckView.color.IColorFactory;
 import com.thales.window.deckView.color.PriorityColorFactory;
 import com.thales.window.deckView.color.RandomColorFactory;
@@ -55,7 +56,7 @@ public class DeckView extends Pane
 
     CargoView cargoView;
 
-    private final IColorFactory colorFactory = new PriorityColorFactory();
+    private final IColorFactory colorFactory = new DestinationColorFactory();
 
     private boolean setNewDelta = true;
 
