@@ -1,6 +1,9 @@
 package com.thales.window;
 
+import com.thales.utils.FXExecutor;
+import com.thales.window.Manifest.ManifestView;
 import com.thales.window.deckView.DeckView;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -16,13 +19,16 @@ public class VesselOptimizationView extends HBox{
     //TODO
     final Pane deckView = new DeckView();
 
-    final Pane generationView = new Pane();
+    final Label generationView = new Label("Count");
+
+    private int count = 0;
 
     final FitnessView fitnessView = new FitnessView();
 
-    final Pane manifestView = new Pane();
 
     final Executor executor = Executors.newSingleThreadExecutor();
+
+    final Pane  manifestView = new ManifestView();
 
     public VesselOptimizationView()
     {
@@ -32,7 +38,12 @@ public class VesselOptimizationView extends HBox{
 
         executor.execute(() -> {
             while(true){
-            fitnessView.addDataToQueue(20);
+                count ++;
+                FXExecutor.INSTANCE.execute(()->
+                {
+                    generationView.setText("count " + count);
+                    fitnessView.addDataToQueue((int) (Math.random() * 100));
+                });
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
@@ -41,9 +52,9 @@ public class VesselOptimizationView extends HBox{
             }
         });
 
-
-
         this.getChildren().addAll(leftBox, deckView);
+
+
     }
 
 }

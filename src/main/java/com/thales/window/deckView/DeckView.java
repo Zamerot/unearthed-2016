@@ -45,8 +45,12 @@ public class DeckView extends Pane
     public DeckView()
     {
         world.getChildren().addAll(axis, grid, vesselView);
-        //vesselView.setVisible(false);
+//        vesselView.setVisible(false);
+//        grid.setVisible(false);
         buildCamera();
+
+        vesselView.setTranslateZ(40);
+        grid.setTranslateZ(20);
 
         root.getChildren().add(world);
         root.setDepthTest(DepthTest.ENABLE);
