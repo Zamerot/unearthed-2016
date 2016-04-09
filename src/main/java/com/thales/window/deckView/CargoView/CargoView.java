@@ -36,8 +36,8 @@ public class CargoView extends Xform {
                     transY += temp.getHeight() /2;
                 }
 
-                temp.setTranslateX(transX);
-                temp.setTranslateY(-transY);
+                temp.setTranslateX(transY);
+                temp.setTranslateY(-transX);
 
                 transY += temp.getHeight() /2;
 
