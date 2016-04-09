@@ -1,6 +1,7 @@
 package com.thales.window.deckView;
 
 import com.thales.model.Item;
+import com.thales.model.Manifest;
 import com.thales.window.deckView.CargoView.CargoView;
 import com.thales.window.deckView.CargoView.ItemView;
 import com.thales.window.deckView.color.IColorFactory;
@@ -9,7 +10,6 @@ import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -53,7 +53,7 @@ public class DeckView extends Pane
 
     final Xform grid = new Grid(14000, 10000, 100, 100);
 
-    Xform cargoView;
+    CargoView cargoView;
 
     private final IColorFactory colorFactory = new RandomColorFactory();
 
@@ -89,7 +89,8 @@ public class DeckView extends Pane
 
     public DeckView()
     {
-        cargoView = new CargoView((createList()));
+        setMaxWidth(1600);
+        cargoView = new CargoView();
 
         world.getChildren().addAll(axis, grid, vesselView, cargoView);
 //        vesselView.setVisible(false);
@@ -115,7 +116,7 @@ public class DeckView extends Pane
         root.getChildren().add(world);
         root.setDepthTest(DepthTest.ENABLE);
 
-        SubScene subScene = new SubScene(root, 1400, 1000);
+        SubScene subScene = new SubScene(root, 1400, 800);
         subScene.setCamera(camera);
         getChildren().add(subScene);
         setSceneEvents();
@@ -170,13 +171,7 @@ public class DeckView extends Pane
         //handles mouse scrolling
         this.setOnScroll(
             event -> {
-                double zoomFactor = 1.10;
-                double deltaY = event.getDeltaY();
-                if (deltaY < 0) {
-                    zoomFactor = 2.0 - zoomFactor;
-                }
-                this.setScaleX(this.getScaleX() * zoomFactor);
-                this.setScaleY(this.getScaleY() * zoomFactor);
+                camera.setTranslateZ(camera.getTranslateZ() + event.getDeltaY() * 5);
                 event.consume();
             });
 
@@ -194,10 +189,37 @@ public class DeckView extends Pane
                 setNewDelta=false;
             }
             camera.setLayoutX(dragEvent.getSceneX() + dragDelta.x);
-            camera.setLayoutY(dragEvent.getSceneY() + dragDelta.y);
+            camera.setLayoutY(dragEvent.getSceneY()+ dragDelta.y);
             dragEvent.consume();
         });
 
     }
     class Delta { double x, y; }
+
+
+    public void updateDeck(Manifest m)
+    {
+        int maxWidth =  m.getVessel().getDimension().width;
+        int maxHeight = m.getVessel().getDimension().height;
+
+        List<List<ItemView>> list = new ArrayList<>();
+
+
+        for(int i = 0; i < maxWidth; i++)
+        {
+            List<ItemView> row = new ArrayList<>();
+
+            for(int j = 0; j < maxHeight; j++)
+            {
+                ItemView itemView = new ItemView(m.getPosition(i, j));
+                itemView.setMaterial(new PhongMaterial(colorFactory.getColor(itemView)));
+
+                row.add(itemView);
+            }
+
+            list.add(row);
+        }
+
+        cargoView.update(list);
+    }
 }

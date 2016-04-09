@@ -14,39 +14,13 @@ import java.util.stream.Collectors;
 public class CargoView extends Xform {
 
 
-    public CargoView(List<List<ItemView>> items)
+    public void update(List<List<ItemView>> items)
     {
+        this.getChildren().clear();
         double rowTrans = 0;
         double colTrans = 0;
 
         double largestHeight = 0;
-
-        /*
-        for(int r = items.size(); r < items.size(); r++)
-        {
-            List<ItemView> row = items.get(r);
-            for(int c = row.size(); c< row.size(); c++){
-                ItemView col = row.get(c);
-
-                colTrans = colTrans + col.getWidth() / 2;
-
-                col.setTranslateX(colTrans);
-                col.setTranslateY(rowTrans);
-
-                this.getChildren().add(col);
-
-                if(col.getHeight() > largestHeight)
-                {
-                    largestHeight = col.getHeight();
-                }
-            }
-
-            rowTrans = rowTrans += largestHeight;
-            largestHeight = 0;
-            colTrans  = 0;
-        }
-*/
-
 
         double transX = 0;
         double transY = 0;

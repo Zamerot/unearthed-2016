@@ -1,10 +1,9 @@
-package com.thales.window;/**
-							* Created by Administrator on 8/04/2016.
-							*/
+package com.thales.window;
 
 import java.io.InputStream;
 import java.util.concurrent.Executors;
 
+import javafx.scene.image.Image;
 import org.jenetics.util.RandomRegistry;
 
 import com.thales.ga.ManifestOptimiser;
@@ -34,7 +33,7 @@ public class MainWindow extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Loady Boat");
 
-		Scene scene = new Scene(mainPane, 1280, 800, true);
+		Scene scene = new Scene(mainPane);
 
 		InputStream icon = this.getClass().getResourceAsStream("/icon.png");
 
@@ -55,6 +54,7 @@ public class MainWindow extends Application {
 
 		mainPane.getChildren().add(view);
 		primaryStage.setScene(scene);
+	//	primaryStage.setFullScreen(true);
 		primaryStage.show();
 
 		Executors.newSingleThreadExecutor().execute(() -> view.go());
