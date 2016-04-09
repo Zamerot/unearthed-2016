@@ -11,7 +11,8 @@ public class Manifest {
 	private final Vessel vessel;
 
 	public Manifest(Vessel vessel) {
-		this.vessel = checkNotNull(vessel);
+//		this.vessel = checkNotNull(vessel);
+		this.vessel = vessel;
 	}
 
 	public Vessel getVessel() {
@@ -19,7 +20,8 @@ public class Manifest {
 	}
 
 	public void addItem(Item item) {
-		items.add(checkNotNull(item));
+//		items.add(checkNotNull(item));
+		items.add(item);
 	}
 
 }
