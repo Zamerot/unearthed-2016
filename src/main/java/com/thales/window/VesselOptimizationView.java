@@ -35,6 +35,7 @@ public class VesselOptimizationView extends HBox{
         VBox leftBox = new VBox();
 
         leftBox.getChildren().addAll(generationView, fitnessView, manifestView);
+        //leftBox.
 
         executor.execute(() -> {
             while(true){

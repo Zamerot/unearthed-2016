@@ -40,13 +40,17 @@ public class DeckView extends Pane
 
     final VesselView vesselView = new VesselView();
 
+    final Delta dragDelta = new Delta();
+
     final Xform grid = new Grid(14000, 10000, 100, 100);
+
+    private boolean setNewDelta = true;
 
     public DeckView()
     {
         world.getChildren().addAll(axis, grid, vesselView);
-//        vesselView.setVisible(false);
-//        grid.setVisible(false);
+        //vesselView.setVisible(false);
+        grid.setVisible(false);
         buildCamera();
 
         vesselView.setTranslateZ(40);
@@ -58,6 +62,7 @@ public class DeckView extends Pane
         SubScene subScene = new SubScene(root, 1400, 1000);
         subScene.setCamera(camera);
         getChildren().add(subScene);
+        setSceneEvents();
     }
 
     private void buildAxes() {
@@ -105,4 +110,38 @@ public class DeckView extends Pane
         cameraXform.rz.setAngle(CAMERA_INITIAL_Z_ANGLE);
 
     }
+    private void setSceneEvents() {
+        //handles mouse scrolling
+        this.setOnScroll(
+            event -> {
+                double zoomFactor = 1.10;
+                double deltaY = event.getDeltaY();
+                if (deltaY < 0) {
+                    zoomFactor = 2.0 - zoomFactor;
+                }
+                this.setScaleX(this.getScaleX() * zoomFactor);
+                this.setScaleY(this.getScaleY() * zoomFactor);
+                event.consume();
+            });
+
+        this.setOnMousePressed((dragover) ->
+        {
+            setNewDelta = true;
+            dragover.consume();
+        });
+
+        this.setOnMouseDragged(dragEvent ->
+        {
+            if (setNewDelta) {
+                dragDelta.x = camera.getLayoutX() - dragEvent.getSceneX();
+                dragDelta.y = camera.getLayoutY() - dragEvent.getSceneY();
+                setNewDelta=false;
+            }
+            camera.setLayoutX(dragEvent.getSceneX() + dragDelta.x);
+            camera.setLayoutY(dragEvent.getSceneY() + dragDelta.y);
+            dragEvent.consume();
+        });
+
+    }
+    class Delta { double x, y; }
 }
