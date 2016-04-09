@@ -41,10 +41,10 @@ public class MainWindow extends Application {
 
 		Scene scene = new Scene(mainPane, 1280, 800, true);
 
-		// InputStream icon = this.getClass().getResourceAsStream("/icon.png");
+		 InputStream icon = this.getClass().getResourceAsStream("/icon.png");
 
-		// Image image = new Image(icon);
-		// primaryStage.getIcons().add(image);
+		 Image image = new Image(icon);
+		 primaryStage.getIcons().add(image);
 		// Generate a random collection of store items.
 		
 		Store store = new Store();
