@@ -1,5 +1,6 @@
 package com.thales.window.deckView.color;
 
+import com.thales.model.Urgency;
 import com.thales.window.deckView.CargoView.ItemView;
 import javafx.scene.paint.Color;
 
@@ -13,5 +14,5 @@ public interface IColorFactory<T> {
     Color getColor(ItemView itemView);
 
 
-    Hashtable<T, Color> getColors();
+    Hashtable<Urgency, Color> getColors();
 }

@@ -111,7 +111,6 @@ public class DeckView extends Pane
         }
     }
     private void buildAxes() {
-        System.out.println("buildAxes()");
         final PhongMaterial redMaterial = new PhongMaterial();
         redMaterial.setDiffuseColor(Color.DARKRED);
         redMaterial.setSpecularColor(Color.RED);

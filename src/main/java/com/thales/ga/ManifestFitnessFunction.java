@@ -1,39 +1,46 @@
 package com.thales.ga;
 
-import com.thales.model.*;
-import org.jenetics.Genotype;
-import org.jenetics.IntegerChromosome;
-import org.jenetics.IntegerGene;
-
+import java.util.Arrays;
 import java.util.function.Function;
 import java.util.stream.Collector;
+
+import org.jenetics.Genotype;
+import org.jenetics.IntegerGene;
+import org.jenetics.util.ISeq;
+
+import com.thales.model.Destination;
+import com.thales.model.Item;
+import com.thales.model.Priority;
+import com.thales.model.Store;
+import com.thales.model.Urgency;
+import com.thales.model.Vessel;
 
 public class ManifestFitnessFunction implements Function<Genotype<IntegerGene>, Double> {
 
 	private final Vessel vessel;
 	private final Store store;
-	private final double size;
 
-	public ManifestFitnessFunction(Vessel vessel, Store store, double size) {
+	public ManifestFitnessFunction(Vessel vessel, Store store) {
 		this.vessel = vessel;
 		this.store = store;
-		this.size = size;
 	}
 
-	private Collector<Item, double[], double[]> sum() {
-		return Collector.of(() -> new double[2], (a, b) -> {
-			a[0] += (Priority.LOWEST.getValue() - b.getPriority().getValue()) * (Urgency.ROUTINE.getValue() - b.getUrgency().getValue());
-			a[1]++;
-		} , (a, b) -> {
-			a[0] += b[0];
-			a[1] += b[1];
-			return a;
-		} , r -> r);
-	}
-	
 	public Double apply(Genotype<IntegerGene> gt) {
-		double[] value = ((IntegerChromosome)gt.getChromosome()).stream().map((i) -> store.getItem(i.intValue())).collect(sum());
-		return value[1] <= this.size ? value[0] : 0;
+	
+		double fitness = 0;
+		
+		ISeq<IntegerGene> seq = gt.getChromosome().toSeq();
+		for(int i = 0; i < seq.size(); i++) {
+			Item item = store.getItem(seq.get(i).intValue());
+			int x = i % vessel.getDimension().width;
+			int y = i / vessel.getDimension().width;
+			int sector = x / Destination.values().length; // actual sector
+			int distance = Destination.values().length - Math.abs(item.getDestination().ordinal() - sector); // distance from optimal
+			double value = (item.getDestination().ordinal() - sector) * (Priority.LOWEST.getValue() - item.getPriority().getValue()) * (Urgency.ROUTINE.getValue() - item.getUrgency().getValue());
+			fitness += value * distance;
+		}
+
+		return fitness;
 	}
 
 }
