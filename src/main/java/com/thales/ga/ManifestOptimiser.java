@@ -45,21 +45,19 @@ public class ManifestOptimiser {
 	}
 
 	public Manifest optimise(ManifestOptimsationFunction func) {
-		int nitems = (int)(0.01 * ( vessel.getDimension().width * vessel.getDimension().height ));
+		int nitems = (int)(0.7 * ( vessel.getDimension().width * vessel.getDimension().height ));
 		ManifestFitnessFunction ff = new ManifestFitnessFunction(store, nitems);
 
 		Engine<BitGene, Double> engine = Engine.builder(ff, BitChromosome.of(store.size(), 0.01))
 				.optimize(Optimize.MAXIMUM).populationSize(500).survivorsSelector(new TournamentSelector<>(5))
 				.offspringSelector(new RouletteWheelSelector<>())
-				.alterers(new Mutator<>(0.115), new SinglePointCrossover<>(0.16)).build();
+				.alterers(new Mutator<>(0.115), new SinglePointCrossover<>(0.30)).build();
 
 		EvolutionStatistics<Double, ?> statistics = EvolutionStatistics.ofNumber();
 
-		Phenotype<BitGene, Double> best = engine.stream().peek((r) -> func.apply(r.getGeneration(), create(r.getBestPhenotype().getGenotype())))
-				.peek(statistics).limit(GENERATION_LIMIT).collect(toBestPhenotype());
+		Phenotype<BitGene, Double> best = engine.stream().peek(statistics).peek((r) -> func.apply(statistics, create(r.getBestPhenotype().getGenotype())))
+				.limit(GENERATION_LIMIT).collect(toBestPhenotype());
 
-		System.out.println(statistics);
-		System.out.println(best);
 		return create(best.getGenotype());
 	}
 
@@ -78,11 +76,10 @@ public class ManifestOptimiser {
 		// Vessel vessel7 = new Vessel("Vessel 7", new Dimension(10, 16));
 		// Vessel vessel2 = new Vessel("Vessel 2", new Dimension(11, 19));
 		ManifestOptimiser optimiser = new ManifestOptimiser(store, vessel16);
-		Manifest best = optimiser.optimise((g, m) -> {
-			
+		Manifest best = optimiser.optimise((s, m) -> {
+			System.out.println(s);
 		});
 		
-		System.out.println(best);
 	}
 
 }
