@@ -71,7 +71,6 @@ public class DeckView extends Pane
         cargoView = new CargoView();
 
         world.getChildren().addAll(axis, grid, vesselView, cargoView, arrow);
-//        vesselView.setVisible(false);
         grid.setVisible(false);
         axis.setVisible(false);
 
@@ -88,7 +87,6 @@ public class DeckView extends Pane
 
         double arrowHeight = arrow.getLayoutBounds().getHeight();
         arrow.setTranslateY(-vesselHeight / 2 - 30 - arrowHeight/2);
-//        vesselView.setTranslate(vesselWidth / 2 + 50, -vesselHeight / 2 - 50);
 
         cargoView.setTranslate(-vesselWidth / 2 + 50, (vesselHeight / 2) - 50);
 
