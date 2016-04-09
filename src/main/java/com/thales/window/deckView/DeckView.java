@@ -5,6 +5,7 @@ import com.thales.model.Manifest;
 import com.thales.window.deckView.CargoView.CargoView;
 import com.thales.window.deckView.CargoView.ItemView;
 import com.thales.window.deckView.color.IColorFactory;
+import com.thales.window.deckView.color.PriorityColorFactory;
 import com.thales.window.deckView.color.RandomColorFactory;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
@@ -55,36 +56,11 @@ public class DeckView extends Pane
 
     CargoView cargoView;
 
-    private final IColorFactory colorFactory = new RandomColorFactory();
+    private final IColorFactory colorFactory = new PriorityColorFactory();
 
     private boolean setNewDelta = true;
 
-    public  List<List<ItemView>> createList()
-    {
-        List<List<ItemView>> items = new ArrayList<>();
 
-
-
-
-        PhongMaterial material = new PhongMaterial(Color.RED);
-        PhongMaterial material2 = new PhongMaterial(Color.BLUE);
-
-        for(int j = 0; j < 5; j++) {
-            List<ItemView> row = new ArrayList<>();
-
-            for (int i = 0; i < 20; i++) {
-                ItemView view = new ItemView(100, 100, 300);
-
-                view.setMaterial(new PhongMaterial(colorFactory.getColor(view)));
-
-                row.add(view);
-            }
-
-            items.add(row);
-        }
-
-        return items;
-    }
 
 
     public DeckView()

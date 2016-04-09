@@ -16,14 +16,15 @@ public class ItemView extends Box{
     int y;
 
 
-    public ItemView(double width, double height, double depth) {
-        super(width, height, depth);
-    }
+
+    final Item item;
 
     public ItemView(Item item)
     {
         // TODO access from item
         super(100, 100, 1);
+
+        this.item = item;
     }
     public int getY() {
         return y;
@@ -41,4 +42,7 @@ public class ItemView extends Box{
         this.x = x;
     }
 
+    public Item getItem() {
+        return item;
+    }
 }
