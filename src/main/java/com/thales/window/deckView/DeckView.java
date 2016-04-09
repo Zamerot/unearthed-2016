@@ -5,6 +5,8 @@ import com.thales.window.deckView.CargoView.CargoView;
 import com.thales.window.deckView.CargoView.ItemView;
 import com.thales.window.deckView.color.DestinationColorFactory;
 import com.thales.window.deckView.color.IColorFactory;
+import com.thales.window.deckView.color.PriorityColorFactory;
+import com.thales.window.deckView.color.RandomColorFactory;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
@@ -94,7 +96,7 @@ public class DeckView extends Pane
         root.getChildren().add(world);
         root.setDepthTest(DepthTest.ENABLE);
 
-        SubScene subScene = new SubScene(root, 1400, 800);
+        SubScene subScene = new SubScene(root, 1400, 1200);
         subScene.setCamera(camera);
         getChildren().add(subScene);
         setSceneEvents();
@@ -128,7 +130,6 @@ public class DeckView extends Pane
     }
 
     private void buildCamera() {
-        System.out.println("buildCamera()");
         root.getChildren().add(cameraXform);
         cameraXform.getChildren().add(cameraXform2);
         cameraXform2.getChildren().add(cameraXform3);
@@ -149,7 +150,13 @@ public class DeckView extends Pane
         //handles mouse scrolling
         this.setOnScroll(
             event -> {
-                camera.setTranslateZ(camera.getTranslateZ() + event.getDeltaY() * 5);
+                double zoomValue = camera.getTranslateZ() + event.getDeltaY() * 5;
+                if (zoomValue > -200) {
+                    zoomValue = -200;
+                } else if(zoomValue < -10000){
+                    zoomValue = -10000;
+                }
+                camera.setTranslateZ(zoomValue);
                 event.consume();
             });
 
@@ -164,15 +171,17 @@ public class DeckView extends Pane
             if (setNewDelta) {
                 dragDelta.x = camera.getLayoutX() - dragEvent.getSceneX();
                 dragDelta.y = camera.getLayoutY() - dragEvent.getSceneY();
-                setNewDelta=false;
+                setNewDelta = false;
             }
             camera.setLayoutX(dragEvent.getSceneX() + dragDelta.x);
-            camera.setLayoutY(dragEvent.getSceneY()+ dragDelta.y);
+            camera.setLayoutY(dragEvent.getSceneY() + dragDelta.y);
             dragEvent.consume();
         });
 
     }
-    class Delta { double x, y; }
+
+    class Delta {
+        double x, y; }
 
 
     public void updateDeck(Manifest m)

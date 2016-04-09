@@ -11,9 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.jenetics.stat.DoubleMomentStatistics;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
 /**
  * Created by Administrator on 8/04/2016.
  */
@@ -22,13 +19,11 @@ public class VesselOptimizationView extends HBox {
 	// TODO
 	final DeckView deckView = new DeckView();
 
+	final ColorMenubar menuBar;
+
 	final GenerationView generationView = new GenerationView();
 
-	private int count = 0;
-
 	final FitnessView fitnessView = new FitnessView();
-
-	final Executor executor = Executors.newSingleThreadExecutor();
 
 	final ManifestView manifestView = new ManifestView();
 
@@ -38,9 +33,11 @@ public class VesselOptimizationView extends HBox {
 		this.optimiser = optimiser;
 		VBox leftBox = new VBox();
 
+		menuBar = new ColorMenubar(deckView);
+
 		leftBox.getChildren().addAll(generationView, fitnessView, manifestView);
 
-		this.getChildren().addAll(leftBox, deckView);
+		this.getChildren().addAll(leftBox, menuBar);
 
 	}
 
