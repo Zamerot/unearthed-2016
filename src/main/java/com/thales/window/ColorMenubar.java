@@ -1,5 +1,6 @@
 package com.thales.window;
 
+import com.thales.window.UiLegend.Legend;
 import com.thales.window.deckView.DeckView;
 import com.thales.window.deckView.color.DestinationColorFactory;
 import com.thales.window.deckView.color.PriorityColorFactory;
@@ -7,7 +8,7 @@ import com.thales.window.deckView.color.UrgencyColorFactory;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 /**
  * @author Will Crisp
@@ -17,10 +18,39 @@ public class ColorMenubar extends VBox {
   private MenuBar menuBar = new MenuBar();
   private DeckView deckView;
 
+  Legend legend = new Legend();
+
   public ColorMenubar(DeckView deckView) {
+    legend.updateLegend(new DestinationColorFactory().getColors());
     this.deckView = deckView;
     buildMenuButtons();
-    getChildren().addAll(menuBar,deckView);
+    getChildren().addAll(menuBar, deckView);
+
+    VBox deckBox = new VBox();
+    deckBox.getChildren().addAll(menuBar, deckView);
+
+    StackPane stackPane = new StackPane();
+    stackPane.getChildren().add(deckBox);
+
+    Pane spacer1 = new Pane();
+    VBox vGlass = new VBox();
+
+
+    vGlass.getChildren().addAll(spacer1, legend);
+    VBox.setVgrow(spacer1, Priority.ALWAYS);
+
+    HBox hGlass = new HBox();
+    Pane spacer2 = new Pane();
+
+    hGlass.getChildren().addAll(spacer2, vGlass);
+    HBox.setHgrow(spacer2, Priority.ALWAYS);
+
+    stackPane.getChildren().add(hGlass);
+
+    vGlass.setMouseTransparent(true);
+    hGlass.setMouseTransparent(true);
+    this.getChildren().add(stackPane);
+
   }
 
   private void buildMenuButtons(){
@@ -32,16 +62,19 @@ public class ColorMenubar extends VBox {
     CheckMenuItem urgency = new CheckMenuItem("Urgency");
     destination.setSelected(true);
     destination.setOnAction((e) ->{
+      legend.updateLegend(new DestinationColorFactory().getColors());
       deckView.setColourFactory(new DestinationColorFactory());
       priority.setSelected(false);
       urgency.setSelected(false);
     });
     priority.setOnAction((e) -> {
+      legend.updateLegend(new PriorityColorFactory().getColors());
       deckView.setColourFactory(new PriorityColorFactory());
       destination.setSelected(false);
       urgency.setSelected(false);
     });
     urgency.setOnAction((e) -> {
+      legend.updateLegend(new UrgencyColorFactory().getColors());
       deckView.setColourFactory(new UrgencyColorFactory());
       priority.setSelected(false);
       destination.setSelected(false);
