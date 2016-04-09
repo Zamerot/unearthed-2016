@@ -33,21 +33,16 @@ public class ManifestOptimiser {
 	private Manifest create(Genotype<EnumGene<Item>> genotype) {
 		Manifest manifest = new Manifest(vessel);
 		// .sorted((a, b) ->
-		// a.getAllele().getDestination().compareTo(b.getAllele().getDestination())
+		// a.getAllele().getDestination().compareTo(b.getAllele().getDestination()))
 		((PermutationChromosome<Item>) genotype.getChromosome()).stream()
 				.forEach((i) -> manifest.addItem(i.getAllele()));
 		return manifest;
 	}
 
 	public Manifest optimise(ManifestOptimsationFunction func) {
-		// ManifestFitnessFunction ff1 = new ManifestFitnessFunction(vessel,
-		// store);
-
-		// IntegerChromosome c = IntegerChromosome.of(0, store.size() - 1,
-		// vessel.getDimension().size);
 		ISeq<Item> seq = ISeq.of(store.allItems());
 		PermutationChromosome<Item> c = PermutationChromosome.of(seq, vessel.getDimension().size);
-		final Engine<EnumGene<Item>, Double> engine = Engine.builder(new FitnessFunction2(vessel), c)
+		final Engine<EnumGene<Item>, Double> engine = Engine.builder(new ManifestFitnessFunction(vessel), c)
 				.optimize(Optimize.MAXIMUM).populationSize(50).survivorsSelector(new TournamentSelector<>(5))
 				.offspringSelector(new RouletteWheelSelector<>()).maximalPhenotypeAge(500)
 				.alterers(new SwapMutator<>(0.2), new PartiallyMatchedCrossover<>(0.35)).build();
@@ -58,8 +53,7 @@ public class ManifestOptimiser {
 				.peek((r) -> func.apply(r.getGeneration(), statistics, create(r.getBestPhenotype().getGenotype())))
 				.collect(toBestPhenotype());
 
-		// return create(best.getGenotype());
-		return null;
+		return create(best.getGenotype());
 	}
 
 }
