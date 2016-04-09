@@ -54,7 +54,7 @@ public class MainWindow extends Application {
 
 		mainPane.getChildren().add(view);
 		primaryStage.setScene(scene);
-		primaryStage.setFullScreen(true);
+//		primaryStage.setFullScreen(true);
 		primaryStage.show();
 
 		primaryStage.setOnCloseRequest((a) -> {

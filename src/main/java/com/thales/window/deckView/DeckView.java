@@ -155,11 +155,11 @@ public class DeckView extends Pane
         this.setOnScroll(
             event -> {
                 double zoomValue = camera.getTranslateZ() + event.getDeltaY() * 5;
-//                if (zoomValue > -200) {
-//                    zoomValue = -200;
-//                } else if (zoomValue < -10000) {
-//                    zoomValue = -10000;
-//                }
+                if (zoomValue > -200) {
+                    zoomValue = -200;
+                } else if (zoomValue < -10000) {
+                    zoomValue = -10000;
+                }
                 camera.setTranslateZ(zoomValue);
                 event.consume();
             });

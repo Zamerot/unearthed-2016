@@ -27,6 +27,8 @@ public class Legend extends VBox {
     getChildren().clear();
     setSpacing(20);
 
+    Label title = new Label("LEGEND ");
+
     List<HBox> panes = legendLabels.keySet().stream().map((key) -> {
       Label label = new Label(key.name());
 
@@ -34,14 +36,27 @@ public class Legend extends VBox {
       colourLabel.setFill(legendLabels.get(key));
       Pane spacer = new Pane();
       HBox hbox = new HBox();
-      hbox.getChildren().addAll(label,spacer, colourLabel);
-      hbox.setHgrow(spacer, Priority.ALWAYS);
+
+      Pane endSpacer = new Pane();
+      endSpacer.setMaxWidth(200);
+
+      Pane leftSpacer = new Pane();
+      leftSpacer.setPrefWidth(20);
+
+      hbox.getChildren().addAll(leftSpacer, label,spacer, colourLabel, new Label("      "));
+
+
 
       return hbox;
     }).collect(Collectors.toList());
 
 
+    this.getChildren().add(title);
     this.getChildren().addAll(panes);
+
+    this.setPrefWidth(150);
+
+    this.setStyle(" -fx-background-color: GREY;");
 
 
   }
