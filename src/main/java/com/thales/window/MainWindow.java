@@ -2,30 +2,23 @@ package com.thales.window;/**
 							* Created by Administrator on 8/04/2016.
 							*/
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
-import javax.swing.*;
+import java.util.concurrent.Executors;
 
 import org.jenetics.util.RandomRegistry;
 
 import com.thales.ga.ManifestOptimiser;
 import com.thales.model.Destination;
 import com.thales.model.Item;
-import com.thales.model.Manifest;
 import com.thales.model.Priority;
 import com.thales.model.Store;
 import com.thales.model.Urgency;
 import com.thales.model.Vessel;
-import com.thales.model.Vessel.Dimension;
 
-import java.io.InputStream;
-import java.util.ResourceBundle;
-import java.util.concurrent.Executors;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class MainWindow extends Application {
 
@@ -55,10 +48,8 @@ public class MainWindow extends Application {
 			store.addItem(new Item("Item " + i, Priority.values()[p], Urgency.values()[u], Destination.values()[d]));
 		}
 
-		//Vessel vessel16 = new Vessel("Vessel 16", new Dimension(14, 50));
-		 Vessel vessel7 = new Vessel("Vessel 7", new Dimension(10, 16));
-		// Vessel vessel2 = new Vessel("Vessel 2", new Dimension(11, 19));
-		ManifestOptimiser optimiser = new ManifestOptimiser(store, vessel7);
+
+		ManifestOptimiser optimiser = new ManifestOptimiser(store, Vessel.VESSEL16);
 		VesselOptimizationView view = new VesselOptimizationView(optimiser);
 
 		mainPane.getChildren().add(view);

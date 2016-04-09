@@ -3,21 +3,24 @@ package com.thales.ga;
 import java.util.function.Function;
 import java.util.stream.Collector;
 
-import org.jenetics.BitChromosome;
-import org.jenetics.BitGene;
 import org.jenetics.Genotype;
+import org.jenetics.IntegerChromosome;
+import org.jenetics.IntegerGene;
 
 import com.thales.model.Item;
 import com.thales.model.Priority;
 import com.thales.model.Store;
 import com.thales.model.Urgency;
+import com.thales.model.Vessel;
 
-public class ManifestFitnessFunction implements Function<Genotype<BitGene>, Double> {
+public class ManifestFitnessFunction implements Function<Genotype<IntegerGene>, Double> {
 
+	private final Vessel vessel;
 	private final Store store;
 	private final double size;
 
-	public ManifestFitnessFunction(Store store, double size) {
+	public ManifestFitnessFunction(Vessel vessel, Store store, double size) {
+		this.vessel = vessel;
 		this.store = store;
 		this.size = size;
 	}
@@ -33,8 +36,8 @@ public class ManifestFitnessFunction implements Function<Genotype<BitGene>, Doub
 		} , r -> r);
 	}
 	
-	public Double apply(Genotype<BitGene> gt) {
-		double[] value = ((BitChromosome) gt.getChromosome()).ones().mapToObj(i -> store.getItem(i)).collect(sum());
+	public Double apply(Genotype<IntegerGene> gt) {
+		double[] value = ((IntegerChromosome)gt.getChromosome()).stream().map((i) -> store.getItem(i.intValue())).collect(sum());
 		return value[1] <= this.size ? value[0] : 0;
 	}
 
