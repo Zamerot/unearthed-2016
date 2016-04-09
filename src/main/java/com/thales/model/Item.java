@@ -10,10 +10,13 @@ public class Item {
 
 	private final Urgency urgency;
 
-	public Item(String name, Priority priority, Urgency urgency) {
+	private final Destination destination;
+
+	public Item(String name, Priority priority, Urgency urgency, Destination destination) {
 		this.name = checkNotNull(name);
 		this.priority = checkNotNull(priority);
 		this.urgency = checkNotNull(urgency);
+		this.destination = checkNotNull(destination);
 	}
 
 	public String getName() {
@@ -26,6 +29,10 @@ public class Item {
 
 	public Urgency getUrgency() {
 		return urgency;
+	}
+
+	public Destination getDestination() {
+		return destination;
 	}
 
 }
