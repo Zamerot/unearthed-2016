@@ -2,6 +2,8 @@ package com.thales.ga;
 
 import static org.jenetics.engine.EvolutionResult.toBestPhenotype;
 
+import java.util.Comparator;
+
 import org.jenetics.EnumGene;
 import org.jenetics.Genotype;
 import org.jenetics.Optimize;
@@ -31,11 +33,24 @@ public class ManifestOptimiser {
 		this.vessel = vessel;
 	}
 
+	private static class ManifestComparitor implements Comparator<EnumGene<Item>> {
+
+		@Override
+		public int compare(EnumGene<Item> o1, EnumGene<Item> o2) {
+			Item item1 = o1.getAllele();
+			Item item2 = o2.getAllele();
+			int delta = item1.getDestination().compareTo(item2.getDestination());
+			if(delta == 0) {
+				return item1.getPriority().compareTo(item2.getPriority());
+			}
+			return delta;
+		}
+
+	}
+
 	private Manifest create(Genotype<EnumGene<Item>> genotype) {
 		Manifest manifest = new Manifest(vessel);
-		// .sorted((a, b) ->
-		// a.getAllele().getDestination().compareTo(b.getAllele().getDestination()))
-		((PermutationChromosome<Item>) genotype.getChromosome()).stream()
+		((PermutationChromosome<Item>) genotype.getChromosome()).stream().sorted(new ManifestComparitor())
 				.forEach((i) -> manifest.addItem(i.getAllele()));
 		return manifest;
 	}
@@ -49,7 +64,7 @@ public class ManifestOptimiser {
 
 		EvolutionStatistics<Double, ?> statistics = EvolutionStatistics.ofNumber();
 
-		Phenotype<EnumGene<Item>, Double> best = engine.stream().limit(limit.bySteadyFitness(5000)).peek(statistics)
+		Phenotype<EnumGene<Item>, Double> best = engine.stream().limit(limit.bySteadyFitness(100)).peek(statistics)
 				.limit(10000)
 				.peek((r) -> func.apply(r.getGeneration(), statistics, create(r.getBestPhenotype().getGenotype())))
 				.collect(toBestPhenotype());
