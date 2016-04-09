@@ -5,6 +5,7 @@ import static org.jenetics.engine.EvolutionResult.toBestPhenotype;
 import org.jenetics.BitChromosome;
 import org.jenetics.BitGene;
 import org.jenetics.Genotype;
+import org.jenetics.MultiPointCrossover;
 import org.jenetics.Mutator;
 import org.jenetics.Optimize;
 import org.jenetics.Phenotype;
@@ -13,16 +14,10 @@ import org.jenetics.SinglePointCrossover;
 import org.jenetics.TournamentSelector;
 import org.jenetics.engine.Engine;
 import org.jenetics.engine.EvolutionStatistics;
-import org.jenetics.util.RandomRegistry;
 
-import com.thales.model.Destination;
-import com.thales.model.Item;
 import com.thales.model.Manifest;
-import com.thales.model.Priority;
 import com.thales.model.Store;
-import com.thales.model.Urgency;
 import com.thales.model.Vessel;
-import com.thales.model.Vessel.Dimension;
 
 public class ManifestOptimiser {
 
@@ -45,13 +40,14 @@ public class ManifestOptimiser {
 	}
 
 	public Manifest optimise(ManifestOptimsationFunction func) {
-		int nitems = (int) (0.7 * (vessel.getDimension().width * vessel.getDimension().height));
+		int nitems = (int) vessel.getDimension().width * vessel.getDimension().height;
 		ManifestFitnessFunction ff = new ManifestFitnessFunction(store, nitems);
-
-		Engine<BitGene, Double> engine = Engine.builder(ff, BitChromosome.of(store.size(), 0.01))
+		
+		Engine<BitGene, Double> engine = Engine.builder(ff, BitChromosome.of(store.size(), nitems / store.size() * 0.1))
 				.optimize(Optimize.MAXIMUM).populationSize(500).survivorsSelector(new TournamentSelector<>(5))
 				.offspringSelector(new RouletteWheelSelector<>())
-				.alterers(new Mutator<>(0.115), new SinglePointCrossover<>(0.30)).build();
+				.maximalPhenotypeAge(10)
+				.alterers(new Mutator<>(0.2), new SinglePointCrossover<>(0.3)).build();
 
 		EvolutionStatistics<Double, ?> statistics = EvolutionStatistics.ofNumber();
 

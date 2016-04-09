@@ -47,7 +47,7 @@ public class VesselOptimizationView extends HBox {
 
 	public void go() {
 		optimiser.optimise((g, s, m) -> {
-			if (g % 50 == 0) {
+			if (g % 20 == 0) {
 				FXExecutor.INSTANCE.execute(() -> {
 					generationView.setText("Generation " + g);
 					DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();

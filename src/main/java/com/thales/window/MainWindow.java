@@ -48,17 +48,17 @@ public class MainWindow extends Application {
 		// Generate a random collection of store items.
 		
 		Store store = new Store();
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 3000; i++) {
 			int p = RandomRegistry.getRandom().nextInt(Priority.values().length);
 			int u = RandomRegistry.getRandom().nextInt(Urgency.values().length);
 			int d = RandomRegistry.getRandom().nextInt(Destination.values().length);
 			store.addItem(new Item("Item " + i, Priority.values()[p], Urgency.values()[u], Destination.values()[d]));
 		}
 
-		Vessel vessel16 = new Vessel("Vessel 16", new Dimension(14, 50));
-		// Vessel vessel7 = new Vessel("Vessel 7", new Dimension(10, 16));
+		//Vessel vessel16 = new Vessel("Vessel 16", new Dimension(14, 50));
+		 Vessel vessel7 = new Vessel("Vessel 7", new Dimension(10, 16));
 		// Vessel vessel2 = new Vessel("Vessel 2", new Dimension(11, 19));
-		ManifestOptimiser optimiser = new ManifestOptimiser(store, vessel16);
+		ManifestOptimiser optimiser = new ManifestOptimiser(store, vessel7);
 		VesselOptimizationView view = new VesselOptimizationView(optimiser);
 
 		mainPane.getChildren().add(view);
