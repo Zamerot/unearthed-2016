@@ -1,5 +1,7 @@
 package com.thales.window.deckView.CargoView;
 
+import com.thales.model.Item;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Box;
 
 /**
@@ -18,6 +20,11 @@ public class ItemView extends Box{
         super(width, height, depth);
     }
 
+    public ItemView(Item item)
+    {
+        // TODO access from item
+        super(100, 100, 1);
+    }
     public int getY() {
         return y;
     }
