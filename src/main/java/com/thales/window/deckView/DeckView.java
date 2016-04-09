@@ -22,7 +22,7 @@ import java.util.List;
 public class DeckView extends Pane
 {
 
-    private static final double CAMERA_INITIAL_DISTANCE = -10000;
+    private static final double CAMERA_INITIAL_DISTANCE = -8000;
     private static final double CAMERA_INITIAL_X_ANGLE = 0;
     private static final double CAMERA_INITIAL_Y_ANGLE = 0;
     private static final double CAMERA_INITIAL_Z_ANGLE = 90;
@@ -99,10 +99,6 @@ public class DeckView extends Pane
 
         vesselView.setTranslateZ(40);
         grid.setTranslateZ(20);
-
-        double width = cargoView.getLayoutBounds().getWidth();
-        double height = cargoView.getLayoutBounds().getHeight();
-
 
         double vesselWidth = vesselView.getLayoutBounds().getWidth();
         double vesselHeight = vesselView.getLayoutBounds().getHeight();

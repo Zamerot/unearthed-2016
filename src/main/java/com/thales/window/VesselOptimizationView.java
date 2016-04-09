@@ -1,7 +1,9 @@
 package com.thales.window;
 
 import com.thales.ga.ManifestOptimiser;
+import com.thales.model.Priority;
 import com.thales.utils.FXExecutor;
+import com.thales.window.Manifest.FitnessView;
 import com.thales.window.Manifest.GenerationView;
 import com.thales.window.Manifest.ManifestView;
 import com.thales.window.deckView.DeckView;
@@ -45,14 +47,17 @@ public class VesselOptimizationView extends HBox {
 
 	public void go() {
 		optimiser.optimise((g, s, m) -> {
-			if (g % 20 == 0) {
 				FXExecutor.INSTANCE.execute(() -> {
+					if (g % 20 == 0) {
+						DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
+						fitnessView.addDataToQueue(fitness.getMax());
+						generationView.setPriority(m.getItems().stream().filter((item) -> item.getPriority().equals(Priority.HIGH)).count());
+						manifestView.update(m);
+						generationView.setBoxCount(m.getItems().size());
+					}
+
 					generationView.setGeneration(g);
-					DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
-					fitnessView.addDataToQueue(fitness.getMax());
-					manifestView.update(m);
 				});
-			}
 		});
 	}
 
