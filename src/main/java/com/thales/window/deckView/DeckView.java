@@ -1,6 +1,5 @@
 package com.thales.window.deckView;
 
-import com.thales.model.Item;
 import com.thales.window.deckView.CargoView.CargoView;
 import com.thales.window.deckView.CargoView.ItemView;
 import com.thales.window.deckView.color.IColorFactory;
@@ -9,7 +8,6 @@ import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -89,6 +87,7 @@ public class DeckView extends Pane
 
     public DeckView()
     {
+        setMaxWidth(1600);
         cargoView = new CargoView((createList()));
 
         world.getChildren().addAll(axis, grid, vesselView, cargoView);
@@ -115,7 +114,7 @@ public class DeckView extends Pane
         root.getChildren().add(world);
         root.setDepthTest(DepthTest.ENABLE);
 
-        SubScene subScene = new SubScene(root, 1400, 1000);
+        SubScene subScene = new SubScene(root, 1400, 800);
         subScene.setCamera(camera);
         getChildren().add(subScene);
         setSceneEvents();
@@ -170,13 +169,7 @@ public class DeckView extends Pane
         //handles mouse scrolling
         this.setOnScroll(
             event -> {
-                double zoomFactor = 1.10;
-                double deltaY = event.getDeltaY();
-                if (deltaY < 0) {
-                    zoomFactor = 2.0 - zoomFactor;
-                }
-                this.setScaleX(this.getScaleX() * zoomFactor);
-                this.setScaleY(this.getScaleY() * zoomFactor);
+                camera.setTranslateZ(camera.getTranslateZ() + event.getDeltaY() * 5);
                 event.consume();
             });
 
@@ -194,7 +187,7 @@ public class DeckView extends Pane
                 setNewDelta=false;
             }
             camera.setLayoutX(dragEvent.getSceneX() + dragDelta.x);
-            camera.setLayoutY(dragEvent.getSceneY() + dragDelta.y);
+            camera.setLayoutY(dragEvent.getSceneY()+ dragDelta.y);
             dragEvent.consume();
         });
 
