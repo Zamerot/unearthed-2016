@@ -1,12 +1,8 @@
 package com.thales.window.deckView.CargoView;
 
 import com.thales.window.deckView.Xform;
-import javafx.util.Pair;
 
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by Administrator on 9/04/2016.

@@ -11,12 +11,12 @@ import javafx.scene.text.Font;
 public class GenerationView extends HBox {
 
   private Label generationCount = new Label();
-  private Label boxCount = new Label("Boxs: 100");
-  private Label totalPriority = new Label("Total Priority: 1000");
+  private Label boxCount = new Label();
+  private Label totalPriority = new Label();
 
   public GenerationView() {
     super(40);
-    setPadding(new Insets(20,0,20,20));
+    setPadding(new Insets(20, 0, 20, 20));
     setMinWidth(600);
     generationCount.setFont(new Font("Arial", 24));
     boxCount.setFont(new Font("Arial", 24));
@@ -28,4 +28,12 @@ public class GenerationView extends HBox {
   public void setGeneration(long generation) {
     generationCount.setText("Generation: " + String.valueOf(generation));
   }
+
+  public void setBoxCount(long generation) {
+    boxCount.setText("Boxs: " + String.valueOf(generation));
+  }
+  public void setPriority(long generation) {
+    totalPriority.setText("Total Priority: " + String.valueOf(generation));
+  }
+
 }
