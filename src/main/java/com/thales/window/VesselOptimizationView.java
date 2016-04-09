@@ -53,6 +53,7 @@ public class VesselOptimizationView extends HBox {
 						generationView.setPriority(m.getItems().stream().filter((item) -> item.getPriority().equals(Priority.HIGH)).count());
 						manifestView.update(m);
 						generationView.setBoxCount(m.getItems().size());
+						deckView.updateDeck(m);
 					}
 
 					generationView.setGeneration(g);
