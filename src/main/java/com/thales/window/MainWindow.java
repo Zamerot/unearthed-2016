@@ -4,6 +4,8 @@ import com.thales.ga.ManifestOptimiser;
 import com.thales.model.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -11,6 +13,7 @@ import javafx.stage.Stage;
 import org.jenetics.util.RandomRegistry;
 
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 
 public class MainWindow extends Application {
@@ -48,6 +51,11 @@ public class MainWindow extends Application {
 		primaryStage.setScene(scene);
 	//	primaryStage.setFullScreen(true);
 		primaryStage.show();
+
+		primaryStage.setOnCloseRequest((a)->{
+			System.exit(0);
+
+		});
 
 		Executors.newSingleThreadExecutor().execute(() -> view.go());
 	}

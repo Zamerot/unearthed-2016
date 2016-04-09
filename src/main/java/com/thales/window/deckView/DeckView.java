@@ -3,8 +3,10 @@ package com.thales.window.deckView;
 import com.thales.model.Manifest;
 import com.thales.window.deckView.CargoView.CargoView;
 import com.thales.window.deckView.CargoView.ItemView;
+import com.thales.window.deckView.color.DestinationColorFactory;
 import com.thales.window.deckView.color.IColorFactory;
 import com.thales.window.deckView.color.PriorityColorFactory;
+import com.thales.window.deckView.color.RandomColorFactory;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
@@ -54,9 +56,11 @@ public class DeckView extends Pane
 
     CargoView cargoView;
 
-    private final IColorFactory colorFactory = new PriorityColorFactory();
+    private final IColorFactory colorFactory = new DestinationColorFactory();
 
     private boolean setNewDelta = true;
+
+    final Arrow arrow = new Arrow();
 
 
 
@@ -66,12 +70,15 @@ public class DeckView extends Pane
         setMaxWidth(1600);
         cargoView = new CargoView();
 
-        world.getChildren().addAll(axis, grid, vesselView, cargoView);
+        world.getChildren().addAll(axis, grid, vesselView, cargoView, arrow);
 //        vesselView.setVisible(false);
         grid.setVisible(false);
         axis.setVisible(false);
 
         buildCamera();
+
+
+        arrow.setTranslateZ(40);
 
         vesselView.setTranslateZ(40);
         grid.setTranslateZ(20);
@@ -79,8 +86,11 @@ public class DeckView extends Pane
         double vesselWidth = vesselView.getLayoutBounds().getWidth();
         double vesselHeight = vesselView.getLayoutBounds().getHeight();
 
-        cargoView.setTranslate((-vesselWidth / 2 + 50), (vesselHeight / 2 - 50));
+        double arrowHeight = arrow.getLayoutBounds().getHeight();
+        arrow.setTranslateY(-vesselHeight / 2 - 30 - arrowHeight/2);
+//        vesselView.setTranslate(vesselWidth / 2 + 50, -vesselHeight / 2 - 50);
 
+        cargoView.setTranslate(-vesselWidth / 2 + 50, (vesselHeight / 2) - 50);
 
 
         root.getChildren().add(world);
