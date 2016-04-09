@@ -8,6 +8,7 @@ import com.thales.window.Manifest.GenerationView;
 import com.thales.window.Manifest.ManifestView;
 import com.thales.window.deckView.DeckView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.jenetics.stat.DoubleMomentStatistics;
 
@@ -36,6 +37,7 @@ public class VesselOptimizationView extends HBox {
 		menuBar = new ColorMenubar(deckView);
 
 		leftBox.getChildren().addAll(generationView, fitnessView, manifestView);
+
 
 		this.getChildren().addAll(leftBox, menuBar);
 
