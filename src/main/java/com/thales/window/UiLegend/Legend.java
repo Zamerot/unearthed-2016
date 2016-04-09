@@ -1,5 +1,6 @@
 package com.thales.window.UiLegend;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -32,7 +33,7 @@ public class Legend extends VBox {
     List<HBox> panes = legendLabels.keySet().stream().map((key) -> {
       Label label = new Label(key.name());
 
-      Rectangle colourLabel = new Rectangle(10,10);
+      Rectangle colourLabel = new Rectangle(20,20);
       colourLabel.setFill(legendLabels.get(key));
       Pane spacer = new Pane();
       HBox hbox = new HBox();
@@ -43,7 +44,8 @@ public class Legend extends VBox {
       Pane leftSpacer = new Pane();
       leftSpacer.setPrefWidth(20);
 
-      hbox.getChildren().addAll(leftSpacer, label,spacer, colourLabel, new Label("      "));
+
+      hbox.getChildren().addAll(new Label("  "), label, new Label("  "), colourLabel, new Label("   "));
 
 
 
@@ -51,10 +53,16 @@ public class Legend extends VBox {
     }).collect(Collectors.toList());
 
 
+    HBox legendBox = new HBox();
+    legendBox.setAlignment(Pos.CENTER);
+
+    legendBox.getChildren().addAll(panes);
     this.getChildren().add(title);
-    this.getChildren().addAll(panes);
+    this.getChildren().add(legendBox);
 
     this.setPrefWidth(150);
+    this.setPrefHeight(200);
+    this.setAlignment(Pos.CENTER);
 
     this.setStyle(" -fx-background-color: GREY;");
 
