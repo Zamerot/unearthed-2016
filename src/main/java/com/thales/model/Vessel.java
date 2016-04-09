@@ -50,7 +50,7 @@ public final class Vessel {
 	}
 	
 	@FunctionalInterface
-	private static interface CargoValidator {
+	public static interface CargoValidator {
 		
 		boolean check(Item item, int x, int y);
 		
@@ -68,18 +68,18 @@ public final class Vessel {
 
 			// Use the dimensions of the vessel to determine a pathway across the centre of the deck.
 			// This will be a 1m wide pathway to reach the safehavens on the sides of the deck.
-			int invalidY_centre = getDimension().width / 2;
+			int invalidY_centre = getDimension().height / 2;
 			if( y == invalidY_centre )
 				return false;
 
 			// Invalid y values for safehaven on right hand side of deck
-			int invalidY_right = getDimension().width - 1;
-			if( y == invalidY_right)
+			int invalidX_right = getDimension().width - 1;
+			if( x == invalidX_right)
 				return false;
 
 			// Invalid y values for safehaven on left hand side of deck
-			int invalidY_left = 0;
-			if ( y == invalidY_left )
+			int invalidX_left = 0;
+			if ( x == invalidX_left )
 				return false;
 
 			// If an item is destined for AU17 then we should not place it in the lower right hand quadrant

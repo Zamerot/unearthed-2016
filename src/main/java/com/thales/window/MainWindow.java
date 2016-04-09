@@ -43,7 +43,7 @@ public class MainWindow extends Application {
 		Vessel vessel = Vessel.VESSEL16;
 
 		Store store = new Store();
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 6000; i++) {
 			int u = RandomRegistry.getRandom().nextInt(Urgency.values().length);
 			int d = RandomRegistry.getRandom().nextInt(Destination.values().length);
 			store.addItem(new Item("Item " + i, Priority.HIGH, Urgency.values()[u], Destination.values()[d]));

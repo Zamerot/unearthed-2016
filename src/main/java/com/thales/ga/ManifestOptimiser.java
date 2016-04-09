@@ -2,36 +2,22 @@ package com.thales.ga;
 
 import static org.jenetics.engine.EvolutionResult.toBestPhenotype;
 
-import java.util.List;
-import java.util.function.Function;
-
-import org.jenetics.AnyChromosome;
-import org.jenetics.BitChromosome;
-import org.jenetics.Chromosome;
 import org.jenetics.EnumGene;
 import org.jenetics.Genotype;
-import org.jenetics.IntegerChromosome;
-import org.jenetics.IntegerGene;
-import org.jenetics.MultiPointCrossover;
-import org.jenetics.Mutator;
 import org.jenetics.Optimize;
 import org.jenetics.PartiallyMatchedCrossover;
 import org.jenetics.PermutationChromosome;
 import org.jenetics.Phenotype;
 import org.jenetics.RouletteWheelSelector;
-import org.jenetics.SinglePointCrossover;
 import org.jenetics.SwapMutator;
 import org.jenetics.TournamentSelector;
 import org.jenetics.engine.Engine;
 import org.jenetics.engine.EvolutionStatistics;
 import org.jenetics.util.ISeq;
 
-import com.thales.model.Destination;
 import com.thales.model.Item;
 import com.thales.model.Manifest;
-import com.thales.model.Priority;
 import com.thales.model.Store;
-import com.thales.model.Urgency;
 import com.thales.model.Vessel;
 
 public class ManifestOptimiser {
@@ -46,10 +32,11 @@ public class ManifestOptimiser {
 
 	private Manifest create(Genotype<EnumGene<Item>> genotype) {
 		Manifest manifest = new Manifest(vessel);
+		// .sorted((a, b) ->
+		// a.getAllele().getDestination().compareTo(b.getAllele().getDestination())
 		((PermutationChromosome<Item>) genotype.getChromosome()).stream()
 				.forEach((i) -> manifest.addItem(i.getAllele()));
 		return manifest;
-
 	}
 
 	public Manifest optimise(ManifestOptimsationFunction func) {

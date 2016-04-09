@@ -37,7 +37,7 @@ public class ManifestFitnessFunction implements Function<Genotype<IntegerGene>, 
 			int sector = x / Destination.values().length; // actual sector
 			int distance = Destination.values().length - Math.abs(item.getDestination().ordinal() - sector); // distance from optimal
 			double value = (item.getDestination().ordinal() - sector) * (Priority.LOWEST.getValue() - item.getPriority().getValue()) * (Urgency.ROUTINE.getValue() - item.getUrgency().getValue());
-			fitness += value * distance;
+			fitness += value * distance * (vessel.getCargoValidator().check(item, x, y) ? 1 : 0);
 		}
 
 		return fitness;
