@@ -1,13 +1,22 @@
 package com.thales.window.deckView;
 
+import com.thales.model.Item;
+import com.thales.window.deckView.CargoView.CargoView;
+import com.thales.window.deckView.CargoView.ItemView;
+import com.thales.window.deckView.color.IColorFactory;
+import com.thales.window.deckView.color.RandomColorFactory;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 8/04/2016.
@@ -40,17 +49,68 @@ public class DeckView extends Pane
 
     final VesselView vesselView = new VesselView();
 
+    final Delta dragDelta = new Delta();
+
     final Xform grid = new Grid(14000, 10000, 100, 100);
+
+    Xform cargoView;
+
+    private final IColorFactory colorFactory = new RandomColorFactory();
+
+    private boolean setNewDelta = true;
+
+    public  List<List<ItemView>> createList()
+    {
+        List<List<ItemView>> items = new ArrayList<>();
+
+
+
+
+        PhongMaterial material = new PhongMaterial(Color.RED);
+        PhongMaterial material2 = new PhongMaterial(Color.BLUE);
+
+        for(int j = 0; j < 5; j++) {
+            List<ItemView> row = new ArrayList<>();
+
+            for (int i = 0; i < 20; i++) {
+                ItemView view = new ItemView(100, 100, 300);
+
+                view.setMaterial(new PhongMaterial(colorFactory.getColor(view)));
+
+                row.add(view);
+            }
+
+            items.add(row);
+        }
+
+        return items;
+    }
+
 
     public DeckView()
     {
-        world.getChildren().addAll(axis, grid, vesselView);
+        cargoView = new CargoView((createList()));
+
+        world.getChildren().addAll(axis, grid, vesselView, cargoView);
 //        vesselView.setVisible(false);
-//        grid.setVisible(false);
+        grid.setVisible(false);
+        axis.setVisible(false);
+
         buildCamera();
 
         vesselView.setTranslateZ(40);
         grid.setTranslateZ(20);
+
+        double width = cargoView.getLayoutBounds().getWidth();
+        double height = cargoView.getLayoutBounds().getHeight();
+
+
+        double vesselWidth = vesselView.getLayoutBounds().getWidth();
+        double vesselHeight = vesselView.getLayoutBounds().getHeight();
+
+        cargoView.setTranslate((-vesselWidth / 2 + 50) , (vesselHeight / 2 - 50));
+
+
 
         root.getChildren().add(world);
         root.setDepthTest(DepthTest.ENABLE);
@@ -58,6 +118,7 @@ public class DeckView extends Pane
         SubScene subScene = new SubScene(root, 1400, 1000);
         subScene.setCamera(camera);
         getChildren().add(subScene);
+        setSceneEvents();
     }
 
     private void buildAxes() {
@@ -105,4 +166,38 @@ public class DeckView extends Pane
         cameraXform.rz.setAngle(CAMERA_INITIAL_Z_ANGLE);
 
     }
+    private void setSceneEvents() {
+        //handles mouse scrolling
+        this.setOnScroll(
+            event -> {
+                double zoomFactor = 1.10;
+                double deltaY = event.getDeltaY();
+                if (deltaY < 0) {
+                    zoomFactor = 2.0 - zoomFactor;
+                }
+                this.setScaleX(this.getScaleX() * zoomFactor);
+                this.setScaleY(this.getScaleY() * zoomFactor);
+                event.consume();
+            });
+
+        this.setOnMousePressed((dragover) ->
+        {
+            setNewDelta = true;
+            dragover.consume();
+        });
+
+        this.setOnMouseDragged(dragEvent ->
+        {
+            if (setNewDelta) {
+                dragDelta.x = camera.getLayoutX() - dragEvent.getSceneX();
+                dragDelta.y = camera.getLayoutY() - dragEvent.getSceneY();
+                setNewDelta=false;
+            }
+            camera.setLayoutX(dragEvent.getSceneX() + dragDelta.x);
+            camera.setLayoutY(dragEvent.getSceneY() + dragDelta.y);
+            dragEvent.consume();
+        });
+
+    }
+    class Delta { double x, y; }
 }

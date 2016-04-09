@@ -42,7 +42,7 @@ public class ManifestOptimiser {
 	public Manifest optimise(ManifestOptimsationFunction func) {
 		int nitems = (int) vessel.getDimension().width * vessel.getDimension().height;
 		ManifestFitnessFunction ff = new ManifestFitnessFunction(store, nitems);
-		
+
 		Engine<BitGene, Double> engine = Engine.builder(ff, BitChromosome.of(store.size(), nitems / store.size() * 0.1))
 				.optimize(Optimize.MAXIMUM).populationSize(500).survivorsSelector(new TournamentSelector<>(5))
 				.offspringSelector(new RouletteWheelSelector<>())
