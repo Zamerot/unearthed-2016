@@ -2,9 +2,7 @@ package com.thales.window.deckView.color;
 
 import com.thales.model.Destination;
 import com.thales.window.deckView.CargoView.ItemView;
-import com.thales.window.deckView.ColorFactory;
 import javafx.scene.paint.Color;
-import sun.security.krb5.internal.crypto.Des;
 
 import java.util.Hashtable;
 
