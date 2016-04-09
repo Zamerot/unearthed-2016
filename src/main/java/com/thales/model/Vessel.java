@@ -7,8 +7,8 @@ public final class Vessel {
 	private final Dimension dimension;
 
 	public Vessel(String id, Dimension dimension) {
-		this.id = id;//checkNotNull(id);
-		this.dimension = dimension;//checkNotNull(dimension);
+		this.id = checkNotNull(id);
+		this.dimension = checkNotNull(dimension);
 	}
 
 	public String getId() {
