@@ -1,13 +1,22 @@
 package com.thales.window.deckView;
 
+import com.thales.model.Item;
+import com.thales.window.deckView.CargoView.CargoView;
+import com.thales.window.deckView.CargoView.ItemView;
+import com.thales.window.deckView.color.IColorFactory;
+import com.thales.window.deckView.color.RandomColorFactory;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 8/04/2016.
@@ -44,17 +53,64 @@ public class DeckView extends Pane
 
     final Xform grid = new Grid(14000, 10000, 100, 100);
 
+    Xform cargoView;
+
+    private final IColorFactory colorFactory = new RandomColorFactory();
+
     private boolean setNewDelta = true;
+
+    public  List<List<ItemView>> createList()
+    {
+        List<List<ItemView>> items = new ArrayList<>();
+
+
+
+
+        PhongMaterial material = new PhongMaterial(Color.RED);
+        PhongMaterial material2 = new PhongMaterial(Color.BLUE);
+
+        for(int j = 0; j < 5; j++) {
+            List<ItemView> row = new ArrayList<>();
+
+            for (int i = 0; i < 20; i++) {
+                ItemView view = new ItemView(100, 100, 300);
+
+                view.setMaterial(new PhongMaterial(colorFactory.getColor(view)));
+
+                row.add(view);
+            }
+
+            items.add(row);
+        }
+
+        return items;
+    }
+
 
     public DeckView()
     {
-        world.getChildren().addAll(axis, grid, vesselView);
-        //vesselView.setVisible(false);
+        cargoView = new CargoView((createList()));
+
+        world.getChildren().addAll(axis, grid, vesselView, cargoView);
+//        vesselView.setVisible(false);
         grid.setVisible(false);
+        axis.setVisible(false);
+
         buildCamera();
 
         vesselView.setTranslateZ(40);
         grid.setTranslateZ(20);
+
+        double width = cargoView.getLayoutBounds().getWidth();
+        double height = cargoView.getLayoutBounds().getHeight();
+
+
+        double vesselWidth = vesselView.getLayoutBounds().getWidth();
+        double vesselHeight = vesselView.getLayoutBounds().getHeight();
+
+        cargoView.setTranslate((-vesselWidth / 2 + 50) , (vesselHeight / 2 - 50));
+
+
 
         root.getChildren().add(world);
         root.setDepthTest(DepthTest.ENABLE);

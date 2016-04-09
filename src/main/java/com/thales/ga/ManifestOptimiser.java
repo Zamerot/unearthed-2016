@@ -39,7 +39,7 @@ public class ManifestOptimiser {
 		for (int i = 0; i < 100; i++) {
 			int p = RandomRegistry.getRandom().nextInt(Priority.values().length);
 			int u = RandomRegistry.getRandom().nextInt(Urgency.values().length);
-			store.addItem(new Item("FOOOOBARRR", Priority.values()[p], Urgency.values()[u]));
+//			store.addItem(new Item("FOOOOBARRR", Priority.values()[p], Urgency.values()[u], ));
 		}
 
 		Dimension deck = vessel.getDimension();
