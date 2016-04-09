@@ -3,7 +3,6 @@ package com.thales.window.deckView.color;
 import com.thales.model.Priority;
 import com.thales.window.deckView.CargoView.ItemView;
 import javafx.scene.paint.Color;
-import org.jenetics.internal.util.Hash;
 
 import java.util.Hashtable;
 

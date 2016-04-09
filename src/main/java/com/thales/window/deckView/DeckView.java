@@ -5,8 +5,6 @@ import com.thales.window.deckView.CargoView.CargoView;
 import com.thales.window.deckView.CargoView.ItemView;
 import com.thales.window.deckView.color.DestinationColorFactory;
 import com.thales.window.deckView.color.IColorFactory;
-import com.thales.window.deckView.color.PriorityColorFactory;
-import com.thales.window.deckView.color.RandomColorFactory;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
@@ -25,7 +23,7 @@ import java.util.List;
 public class DeckView extends Pane
 {
 
-    private static final double CAMERA_INITIAL_DISTANCE = -8000;
+    private static final double CAMERA_INITIAL_DISTANCE = -10000;
     private static final double CAMERA_INITIAL_X_ANGLE = 0;
     private static final double CAMERA_INITIAL_Y_ANGLE = 0;
     private static final double CAMERA_INITIAL_Z_ANGLE = 90;
@@ -54,9 +52,11 @@ public class DeckView extends Pane
 
     final Xform grid = new Grid(14000, 10000, 100, 100);
 
+    private Manifest lastUpdated = null;
+
     CargoView cargoView;
 
-    private final IColorFactory colorFactory = new DestinationColorFactory();
+    private IColorFactory<?> colorFactory = new DestinationColorFactory();
 
     private boolean setNewDelta = true;
 
@@ -101,7 +101,13 @@ public class DeckView extends Pane
         getChildren().add(subScene);
         setSceneEvents();
     }
+    public void setColourFactory(IColorFactory<?> colourFactory){
 
+        this.colorFactory = colourFactory;
+        if (lastUpdated != null) {
+            updateDeck(lastUpdated);
+        }
+    }
     private void buildAxes() {
         System.out.println("buildAxes()");
         final PhongMaterial redMaterial = new PhongMaterial();
@@ -153,7 +159,7 @@ public class DeckView extends Pane
                 double zoomValue = camera.getTranslateZ() + event.getDeltaY() * 5;
                 if (zoomValue > -200) {
                     zoomValue = -200;
-                } else if(zoomValue < -10000){
+                } else if (zoomValue < -10000) {
                     zoomValue = -10000;
                 }
                 camera.setTranslateZ(zoomValue);
@@ -186,6 +192,7 @@ public class DeckView extends Pane
 
     public void updateDeck(Manifest m)
     {
+        lastUpdated = m;
         int maxWidth =  m.getVessel().getDimension().width;
         int maxHeight = m.getVessel().getDimension().height;
 
