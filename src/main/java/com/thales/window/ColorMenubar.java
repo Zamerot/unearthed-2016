@@ -5,6 +5,7 @@ import com.thales.window.deckView.DeckView;
 import com.thales.window.deckView.color.DestinationColorFactory;
 import com.thales.window.deckView.color.PriorityColorFactory;
 import com.thales.window.deckView.color.UrgencyColorFactory;
+
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;

@@ -25,7 +25,6 @@ public class PriorityColorFactory implements IColorFactory {
 
     @Override
     public Color getColor(ItemView itemView) {
-
        return colours.get(itemView.getItem().getPriority());
     }
 

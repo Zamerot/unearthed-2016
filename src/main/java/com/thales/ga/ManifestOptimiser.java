@@ -13,6 +13,7 @@ import org.jenetics.SwapMutator;
 import org.jenetics.TournamentSelector;
 import org.jenetics.engine.Engine;
 import org.jenetics.engine.EvolutionStatistics;
+import org.jenetics.engine.limit;
 import org.jenetics.util.ISeq;
 
 import com.thales.model.Item;
@@ -43,13 +44,13 @@ public class ManifestOptimiser {
 		ISeq<Item> seq = ISeq.of(store.allItems());
 		PermutationChromosome<Item> c = PermutationChromosome.of(seq, vessel.getDimension().size);
 		final Engine<EnumGene<Item>, Double> engine = Engine.builder(new ManifestFitnessFunction(vessel), c)
-				.optimize(Optimize.MAXIMUM).populationSize(50).survivorsSelector(new TournamentSelector<>(5))
-				.offspringSelector(new RouletteWheelSelector<>()).maximalPhenotypeAge(500)
+				.optimize(Optimize.MAXIMUM).populationSize(vessel.getDimension().size).maximalPhenotypeAge(20)
 				.alterers(new SwapMutator<>(0.2), new PartiallyMatchedCrossover<>(0.35)).build();
 
 		EvolutionStatistics<Double, ?> statistics = EvolutionStatistics.ofNumber();
 
-		Phenotype<EnumGene<Item>, Double> best = engine.stream().peek(statistics).limit(1000)
+		Phenotype<EnumGene<Item>, Double> best = engine.stream().limit(limit.bySteadyFitness(5000)).peek(statistics)
+				.limit(10000)
 				.peek((r) -> func.apply(r.getGeneration(), statistics, create(r.getBestPhenotype().getGenotype())))
 				.collect(toBestPhenotype());
 

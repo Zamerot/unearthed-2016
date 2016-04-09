@@ -5,7 +5,6 @@ import java.util.function.Function;
 import org.jenetics.EnumGene;
 import org.jenetics.Genotype;
 
-import com.thales.model.Destination;
 import com.thales.model.Item;
 import com.thales.model.Priority;
 import com.thales.model.Urgency;
@@ -26,10 +25,8 @@ public class ManifestFitnessFunction implements Function<Genotype<EnumGene<Item>
 			Item item = c.getAllele();
 			int x = c.getAlleleIndex() % vessel.getDimension().width;
 			int y = c.getAlleleIndex() / vessel.getDimension().width;
-			int sector = x / Destination.values().length; // actual sector
-			int distance = Destination.values().length - Math.abs(item.getDestination().ordinal() - sector);
 			fitness += ((Priority.LOWEST.getValue() - item.getPriority().getValue())
-					* (Urgency.ROUTINE.getValue() * item.getUrgency().getValue()));
+					* (Urgency.ROUTINE.getValue() - item.getUrgency().getValue()));
 		}
 		return fitness;
 	}

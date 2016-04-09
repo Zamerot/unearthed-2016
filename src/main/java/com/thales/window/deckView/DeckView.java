@@ -203,9 +203,9 @@ public class DeckView extends Pane
 
             for(int j = 0; j < maxHeight; j++)
             {
-                ItemView itemView = new ItemView(m.getPosition(j, i));
-                itemView.setMaterial(new PhongMaterial(colorFactory.getColor(itemView)));
-
+                ItemView itemView = new ItemView(m.getPosition(i, j));
+                Color c  = m.getVessel().check(itemView.getItem(), i, j) ? colorFactory.getColor(itemView) : Color.BLACK;
+                itemView.setMaterial(new PhongMaterial(c));
                 row.add(itemView);
             }
 
