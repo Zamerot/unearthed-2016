@@ -5,8 +5,6 @@ import com.thales.window.deckView.CargoView.CargoView;
 import com.thales.window.deckView.CargoView.ItemView;
 import com.thales.window.deckView.color.DestinationColorFactory;
 import com.thales.window.deckView.color.IColorFactory;
-import com.thales.window.deckView.color.PriorityColorFactory;
-import com.thales.window.deckView.color.RandomColorFactory;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
