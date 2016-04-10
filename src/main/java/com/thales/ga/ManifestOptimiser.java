@@ -59,7 +59,8 @@ public class ManifestOptimiser {
 
 		for (int i = 0; i < manifests.size(); i++) {
 			Manifest m = manifests.get(i);
-			List<EnumGene<Item>> genes = seq.subSeq(i, i + m.getVessel().getDimension().size).asList();
+			List<EnumGene<Item>> genes = seq.subSeq(i, i + m.getVessel().getDimension().size).stream()
+					.sorted(new ManifestComparitor()).collect(Collectors.toList());
 			for (EnumGene<Item> gene : genes) {
 				m.addItem(gene.getAllele());
 			}
