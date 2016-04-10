@@ -46,7 +46,7 @@ public class VesselOptimizationView extends HBox {
 			FXExecutor.INSTANCE.execute(() -> {
 				if (g % 5 == 0) {
 					DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
-					fitnessView.addDataToQueue(fitness.getMax());
+					fitnessView.addDataToQueue(fitness.getMin(), fitness.getMean());
 					generationView.setPriority(
 							m.getItems().stream().filter((item) -> item.getPriority().equals(Priority.HIGH)).count());
 					manifestView.update(m);

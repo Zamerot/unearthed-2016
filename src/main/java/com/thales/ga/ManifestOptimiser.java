@@ -59,12 +59,12 @@ public class ManifestOptimiser {
 		ISeq<Item> seq = ISeq.of(store.allItems());
 		PermutationChromosome<Item> c = PermutationChromosome.of(seq, vessel.getDimension().size);
 		final Engine<EnumGene<Item>, Double> engine = Engine.builder(new ManifestFitnessFunction(vessel), c)
-				.optimize(Optimize.MAXIMUM).populationSize(vessel.getDimension().size).maximalPhenotypeAge(20)
+				.optimize(Optimize.MINIMUM).populationSize(500).maximalPhenotypeAge(50)
 				.alterers(new SwapMutator<>(0.2), new PartiallyMatchedCrossover<>(0.35)).build();
 
 		EvolutionStatistics<Double, ?> statistics = EvolutionStatistics.ofNumber();
 
-		Phenotype<EnumGene<Item>, Double> best = engine.stream().limit(limit.bySteadyFitness(100)).peek(statistics)
+		Phenotype<EnumGene<Item>, Double> best = engine.stream().limit(limit.bySteadyFitness(200)).peek(statistics)
 				.limit(10000)
 				.peek((r) -> func.apply(r.getGeneration(), statistics, create(r.getBestPhenotype().getGenotype())))
 				.collect(toBestPhenotype());
