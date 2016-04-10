@@ -1,6 +1,7 @@
 package com.thales.window;
 
 import com.thales.ga.ManifestOptimiser;
+import com.thales.model.Manifest;
 import com.thales.model.Priority;
 import com.thales.model.Vessel;
 import com.thales.utils.FXExecutor;
@@ -43,6 +44,7 @@ public class VesselOptimizationView extends HBox {
 
 	Hashtable<Vessel, DeckView> boatiesTable = new Hashtable<>();
 
+
 	//TODO
 	Vessel v = Vessel.VESSEL2;
 
@@ -58,6 +60,30 @@ public class VesselOptimizationView extends HBox {
 		Vessel v = Vessel.VESSEL2;
 		// TODO get from manifest
 
+//		DeckView deckView = new DeckView();
+//		boatiesTable.put(v, deckView);
+//
+//		Tab tab = new Tab();
+//		tab.setText(v.getId());
+//
+//		tab.setContent(new ColorMenubar(deckView));
+//		tab.setClosable(false);
+//
+//		InputStream icon = this.getClass().getResourceAsStream("/icon.png");
+//
+//		Image image = new Image(icon);
+//		tab.setGraphic(new ImageView(image));
+//
+//		boaties.getTabs().addAll(tab);
+
+		createTab(v);
+		createTab(Vessel.VESSEL7)
+		this.getChildren().addAll(leftBox, boaties);
+
+	}
+
+	private void createTab(Vessel v)
+	{
 		DeckView deckView = new DeckView();
 		boatiesTable.put(v, deckView);
 
@@ -73,9 +99,6 @@ public class VesselOptimizationView extends HBox {
 		tab.setGraphic(new ImageView(image));
 
 		boaties.getTabs().addAll(tab);
-
-		this.getChildren().addAll(leftBox, boaties);
-
 	}
 
 	public void go() {
