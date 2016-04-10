@@ -23,7 +23,7 @@ public class ManifestFitnessFunction implements Function<Genotype<EnumGene<Item>
 			Item item = c.getAllele();
 			int x = c.getAlleleIndex() % vessel.getDimension().width;
 			int y = c.getAlleleIndex() / vessel.getDimension().width;
-			cost += (item.getPriority().getValue() + item.getUrgency().getValue());
+			cost += (item.getPriority().getValue() * item.getUrgency().getValue());
 //			fitness += ((Priority.LOWEST.getValue() - item.getPriority().getValue())
 //					* (Urgency.ROUTINE.getValue() - item.getUrgency().getValue()));
 		}
