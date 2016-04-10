@@ -24,12 +24,12 @@ public class DeckView extends Pane
 {
 
     private static final double CAMERA_INITIAL_DISTANCE = -10000;
-    private static final double CAMERA_INITIAL_X_ANGLE = 0;
+    private static final double CAMERA_INITIAL_X_ANGLE = -40;
     private static final double CAMERA_INITIAL_Y_ANGLE = 0;
-    private static final double CAMERA_INITIAL_Z_ANGLE = 90;
+    private static final double CAMERA_INITIAL_Z_ANGLE =90;
 
     private static final double CAMERA_NEAR_CLIP = 0.1;
-    private static final double CAMERA_FAR_CLIP = 10000.0;
+    private static final double CAMERA_FAR_CLIP = 1000000.0;
 
 
     final PerspectiveCamera camera = new PerspectiveCamera(true);
@@ -98,6 +98,8 @@ public class DeckView extends Pane
         subScene.setCamera(camera);
         getChildren().add(subScene);
         setSceneEvents();
+
+        this.setStyle("-fx-background-color: #E0EEEE;");
     }
     public void setColourFactory(IColorFactory<?> colourFactory){
 
@@ -205,6 +207,11 @@ public class DeckView extends Pane
             {
                 ItemView itemView = new ItemView(m.getPosition(i, j));
                 Color c  = m.getVessel().check(itemView.getItem(), i, j) ? colorFactory.getColor(itemView) : Color.BLACK;
+
+                if(!m.getVessel().check(itemView.getItem(), i, j))
+                {
+                    itemView.setDepth(1);
+                }
                 itemView.setMaterial(new PhongMaterial(c));
                 row.add(itemView);
             }

@@ -48,9 +48,13 @@ public class MainWindow extends Application {
 		VesselOptimizationView view = new VesselOptimizationView(optimiser);
 
 		mainPane.getChildren().add(view);
+
+//		view.setStyle("-fx-background-color: #E0EEEE;");
+		view.setStyle("-fx-background-color: linear-gradient(from 15% 15% to 100% 100%, ##FFFFFF, #E0EEEE);");
 		primaryStage.setScene(scene);
 //		primaryStage.setFullScreen(true);
 		primaryStage.show();
+
 
 		primaryStage.setOnCloseRequest((a) -> {
 			System.exit(0);

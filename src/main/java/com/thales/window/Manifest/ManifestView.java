@@ -23,22 +23,25 @@ public class ManifestView extends Pane
     public ManifestView()
     {
 
-
         TableColumn<Item, String> idColumn = new TableColumn<>("ID");
         TableColumn<Item, String> nameColumn = new TableColumn<>("Name");
         TableColumn<Item, String> priorityColumn = new TableColumn<>("Priority");
         TableColumn<Item, String> urgencyColumn = new TableColumn<>("Urgency");
         TableColumn<Item, String> destinationColumn = new TableColumn<>("Destination");
 
+        destinationColumn.setPrefWidth(100);
+
 
 
 
 
         tableView = new TableView<>();
-        tableView.getColumns().addAll(idColumn, nameColumn, priorityColumn, urgencyColumn, destinationColumn);
+        tableView.getColumns().addAll(nameColumn, priorityColumn, urgencyColumn, destinationColumn);
         tableView.setPadding(new Insets(20, 0, 20, 20));
         tableView.setMinWidth(600);
         tableView.setMinHeight(500);
+
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         idColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Item, String>, ObservableValue<String>>(){
 
@@ -88,6 +91,8 @@ public class ManifestView extends Pane
         });
 
         tableView.setItems(FXCollections.observableArrayList());
+
+
         this.getChildren().addAll(tableView);
     }
 

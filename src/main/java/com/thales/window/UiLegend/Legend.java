@@ -59,13 +59,16 @@ public class Legend extends VBox {
     legendBox.getChildren().addAll(panes);
     this.getChildren().add(title);
     this.getChildren().add(legendBox);
+    Pane spacer = new Pane();
+    spacer.setPrefHeight(50);
+    this.getChildren().add(spacer);
 
     this.setPrefWidth(150);
     this.setPrefHeight(200);
     this.setAlignment(Pos.CENTER);
 
-    this.setStyle(" -fx-background-color: GREY;");
 
+    setStyle("-fx-background-color: #E0EEEE;");
 
   }
 }

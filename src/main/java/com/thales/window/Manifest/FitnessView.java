@@ -27,7 +27,7 @@ public class FitnessView extends Pane {
 		initGraph();
 		prepareTimeline();
 
-		this.setStyle("-fx-background-color: #CCFF99;");
+
 
 	}
 
