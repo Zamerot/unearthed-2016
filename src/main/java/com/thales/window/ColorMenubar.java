@@ -57,7 +57,10 @@ public class ColorMenubar extends VBox {
       destination.setSelected(false);
     });
 
+
+
     menuButton.getItems().addAll(destination, priority, urgency);
-    menuBar.getMenus().addAll(menuButton, gisView);
+    menuBar.getMenus().addAll(menuButton);
+
   }
 }

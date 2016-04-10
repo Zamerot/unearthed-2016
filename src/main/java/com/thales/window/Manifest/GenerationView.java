@@ -26,11 +26,11 @@ public class GenerationView extends HBox {
 
 
   public void setGeneration(long generation) {
-    generationCount.setText("Generation: " + String.valueOf(generation));
+    generationCount.setText("Gen: " + String.valueOf(generation));
   }
 
   public void setBoxCount(long generation) {
-    boxCount.setText("Boxs: " + String.valueOf(generation));
+    boxCount.setText("Containers: " + String.valueOf(generation));
   }
   public void setPriority(long generation) {
     totalPriority.setText("Total Priority: " + String.valueOf(generation));

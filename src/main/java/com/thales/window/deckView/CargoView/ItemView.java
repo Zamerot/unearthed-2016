@@ -22,7 +22,7 @@ public class ItemView extends Box{
     public ItemView(Item item)
     {
         // TODO access from item
-        super(100, 100, 1);
+        super(100, 100, 200);
 
         this.item = item;
     }
