@@ -36,7 +36,7 @@ public class ManifestFitnessFunction implements Function<Genotype<EnumGene<Item>
 //				fitness += ((Priority.LOWEST.getValue() - item.getPriority().getValue())
 //						* (Urgency.ROUTINE.getValue() - item.getUrgency().getValue()));
 			}
-			tcost += vcost;
+			tcost += vcost / genes.size();
 		}
 
 		
