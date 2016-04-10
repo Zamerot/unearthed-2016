@@ -59,7 +59,7 @@ public class ManifestOptimiser {
 		ISeq<Item> seq = ISeq.of(store.allItems());
 		PermutationChromosome<Item> c = PermutationChromosome.of(seq, vessel.getDimension().size);
 		final Engine<EnumGene<Item>, Double> engine = Engine.builder(new ManifestFitnessFunction(vessel), c)
-				.optimize(Optimize.MINIMUM).populationSize(500).maximalPhenotypeAge(50)
+				.optimize(Optimize.MINIMUM).populationSize(200).maximalPhenotypeAge(50)
 				.alterers(new SwapMutator<>(0.2), new PartiallyMatchedCrossover<>(0.35)).build();
 
 		EvolutionStatistics<Double, ?> statistics = EvolutionStatistics.ofNumber();
