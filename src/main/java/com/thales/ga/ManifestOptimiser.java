@@ -2,8 +2,13 @@ package com.thales.ga;
 
 import static org.jenetics.engine.EvolutionResult.toBestPhenotype;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.jenetics.Chromosome;
 import org.jenetics.EnumGene;
 import org.jenetics.Genotype;
 import org.jenetics.Optimize;
@@ -26,11 +31,11 @@ import com.thales.model.Vessel;
 public class ManifestOptimiser {
 
 	private final Store store;
-	private final Vessel vessel;
+	private final List<Vessel> vessels;
 
-	public ManifestOptimiser(Store store, Vessel vessel) {
+	public ManifestOptimiser(Store store, List<Vessel> vessels) {
 		this.store = store;
-		this.vessel = vessel;
+		this.vessels = vessels;
 	}
 
 	private static class ManifestComparitor implements Comparator<EnumGene<Item>> {
@@ -40,7 +45,7 @@ public class ManifestOptimiser {
 			Item item1 = o1.getAllele();
 			Item item2 = o2.getAllele();
 			int delta = item1.getDestination().compareTo(item2.getDestination());
-			if(delta == 0) {
+			if (delta == 0) {
 				return item1.getPriority().compareTo(item2.getPriority());
 			}
 			return delta;
@@ -48,17 +53,27 @@ public class ManifestOptimiser {
 
 	}
 
-	private Manifest create(Genotype<EnumGene<Item>> genotype) {
-		Manifest manifest = new Manifest(vessel);
-		((PermutationChromosome<Item>) genotype.getChromosome()).stream().sorted(new ManifestComparitor())
-				.forEach((i) -> manifest.addItem(i.getAllele()));
-		return manifest;
+	private List<Manifest> create(Genotype<EnumGene<Item>> genotype) {
+		List<Manifest> manifests = vessels.stream().map((v) -> new Manifest(v)).collect(Collectors.toList());
+		ISeq<EnumGene<Item>> seq = ((PermutationChromosome<Item>) genotype.getChromosome()).toSeq();
+
+		for (int i = 0; i < manifests.size(); i++) {
+			Manifest m = manifests.get(i);
+			List<EnumGene<Item>> genes = seq.subSeq(i, i + m.getVessel().getDimension().size).asList();
+			for (EnumGene<Item> gene : genes) {
+				m.addItem(gene.getAllele());
+			}
+		}
+
+		return manifests;
 	}
 
-	public Manifest optimise(ManifestOptimsationFunction func) {
+	public List<Manifest> optimise(ManifestOptimsationFunction func) {
 		ISeq<Item> seq = ISeq.of(store.allItems());
-		PermutationChromosome<Item> c = PermutationChromosome.of(seq, vessel.getDimension().size);
-		final Engine<EnumGene<Item>, Double> engine = Engine.builder(new ManifestFitnessFunction(vessel), c)
+
+		PermutationChromosome<Item> c = PermutationChromosome.of(seq,
+				vessels.stream().mapToInt((v) -> v.getDimension().size).sum());
+		final Engine<EnumGene<Item>, Double> engine = Engine.builder(new ManifestFitnessFunction(vessels), c)
 				.optimize(Optimize.MINIMUM).populationSize(200).maximalPhenotypeAge(50)
 				.alterers(new SwapMutator<>(0.2), new PartiallyMatchedCrossover<>(0.35)).build();
 

@@ -114,6 +114,9 @@ public class VesselOptimizationView extends HBox {
 //					deckView.updateDeck(m);
 
 					 boatiesTable.get(v).updateDeck(m);
+//					manifestView.update(m);
+					generationView.setBoxCount(fitness.getCount());
+					deckView.updateDeck(m.get(0));
 				}
 
 				generationView.setGeneration(g);
