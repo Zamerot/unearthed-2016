@@ -28,11 +28,11 @@ import java.util.List;
 public class VesselOptimizationView extends HBox {
 
 	// TODO
-	final DeckView deckView = new DeckView();
+//	final DeckView deckView = new DeckView();
 
 	final TabPane boaties = new TabPane();
 
-	final ColorMenubar menuBar;
+
 
 	final GenerationView generationView = new GenerationView();
 
@@ -48,16 +48,16 @@ public class VesselOptimizationView extends HBox {
 	//TODO
 	Vessel v = Vessel.VESSEL2;
 
-	public VesselOptimizationView(ManifestOptimiser optimiser) {
+	public VesselOptimizationView(ManifestOptimiser optimiser, List<Vessel> vessels) {
 		this.optimiser = optimiser;
 		VBox leftBox = new VBox();
 
-		menuBar = new ColorMenubar(deckView);
+//		menuBar = new ColorMenubar(deckView);
 
 		leftBox.getChildren().addAll(generationView, fitnessView, manifestView);
 
 		// TODO
-		Vessel v = Vessel.VESSEL2;
+//		Vessel v = Vessel.VESSEL2;
 		// TODO get from manifest
 
 //		DeckView deckView = new DeckView();
@@ -76,15 +76,17 @@ public class VesselOptimizationView extends HBox {
 //
 //		boaties.getTabs().addAll(tab);
 
-		createTab(v);
-		createTab(Vessel.VESSEL7)
+		vessels.stream().forEach((v)->{createTab(v);});
+
+
+
 		this.getChildren().addAll(leftBox, boaties);
 
 	}
 
 	private void createTab(Vessel v)
 	{
-		DeckView deckView = new DeckView();
+		DeckView deckView = new DeckView(v);
 		boatiesTable.put(v, deckView);
 
 		Tab tab = new Tab();
@@ -107,16 +109,19 @@ public class VesselOptimizationView extends HBox {
 				if (g % 5 == 0) {
 					DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
 					fitnessView.addDataToQueue(fitness.getMin(), fitness.getMean());
-					generationView.setPriority(
-							m.getItems().stream().filter((item) -> item.getPriority().equals(Priority.HIGH)).count());
-					manifestView.update(m);
-					generationView.setBoxCount(m.getItems().size());
+//					generationView.setPriority(
+//							m.getItems().stream().filter((item) -> item.getPriority().equals(Priority.HIGH)).count());
+//					manifestView.update(m);
+//					generationView.setBoxCount(m.getItems().size());
 //					deckView.updateDeck(m);
 
-					 boatiesTable.get(v).updateDeck(m);
+					for(Manifest ms : m) {
+
+						boatiesTable.get(ms.getVessel()).updateDeck(ms);
+					}
 //					manifestView.update(m);
 					generationView.setBoxCount(fitness.getCount());
-					deckView.updateDeck(m.get(0));
+//					deckView.updateDeck(m.get(0));
 				}
 
 				generationView.setGeneration(g);
