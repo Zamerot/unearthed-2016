@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import org.jenetics.util.RandomRegistry;
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 public class MainWindow extends Application {
@@ -33,7 +35,7 @@ public class MainWindow extends Application {
 		primaryStage.getIcons().add(image);
 		// Generate a random collection of store items.
 
-		Vessel vessel = Vessel.VESSEL16;
+		List<Vessel> vessels = Arrays.asList(Vessel.VESSEL16, Vessel.VESSEL7, Vessel.VESSEL2);
 
 		Store store = new Store();
 		
@@ -44,7 +46,7 @@ public class MainWindow extends Application {
 			store.addItem(new Item("Item " + i, Priority.values()[p], Urgency.values()[u], Destination.values()[d]));
 		}
 
-		ManifestOptimiser optimiser = new ManifestOptimiser(store, vessel);
+		ManifestOptimiser optimiser = new ManifestOptimiser(store, vessels);
 		VesselOptimizationView view = new VesselOptimizationView(optimiser);
 
 		mainPane.getChildren().add(view);

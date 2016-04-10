@@ -9,6 +9,8 @@ import com.thales.window.Manifest.ManifestView;
 import com.thales.window.deckView.DeckView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import org.jenetics.internal.math.statistics;
 import org.jenetics.stat.DoubleMomentStatistics;
 
 /**
@@ -47,11 +49,9 @@ public class VesselOptimizationView extends HBox {
 				if (g % 5 == 0) {
 					DoubleMomentStatistics fitness = (DoubleMomentStatistics) s.getFitness();
 					fitnessView.addDataToQueue(fitness.getMin(), fitness.getMean());
-					generationView.setPriority(
-							m.getItems().stream().filter((item) -> item.getPriority().equals(Priority.HIGH)).count());
-					manifestView.update(m);
-					generationView.setBoxCount(m.getItems().size());
-					deckView.updateDeck(m);
+//					manifestView.update(m);
+					generationView.setBoxCount(fitness.getCount());
+					deckView.updateDeck(m.get(0));
 				}
 
 				generationView.setGeneration(g);
